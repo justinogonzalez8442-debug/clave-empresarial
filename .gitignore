@@ -1,3 +1,6 @@
+# PDFs — viven en Cloudflare R2, no en el repo
+output/pdf/
+
 # Sistema
 .DS_Store
 Thumbs.db
