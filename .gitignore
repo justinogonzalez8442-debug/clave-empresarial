@@ -1,0 +1,7 @@
+# Activos privados de la revista (portadas, páginas generadas)
+assets/revista/
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.tmp

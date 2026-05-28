@@ -1,0 +1,8 @@
+[
+  {
+    "nombre": "Mayo 2026",
+    "portada": "assets/revista/portada_mayo26.png",
+    "pdf": "../output/pdf/revista_mayo26.pdf",
+    "flipbook": "revista.html?pdf=../output/pdf/revista_mayo26.pdf"
+  }
+]

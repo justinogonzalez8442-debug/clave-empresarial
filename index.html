@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clave Empresarial — La Voz del Empresariado Mexicano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    /* ───── RESET & BASE ───── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #0D1B2A;
+      --navy-2:  #112233;
+      --navy-3:  #0A1520;
+      --gold:    #C9A84C;
+      --gold-lt: #E2C06A;
+      --gold-dk: #A8883C;
+      --white:   #FFFFFF;
+      --sec:     #B0B8C1;
+      --border:  rgba(201,168,76,0.22);
+      --border2: rgba(176,184,193,0.14);
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'Lora', Georgia, serif;
+      /* CAMBIO 2: header separado del menú */
+      --header-h: 130px;   /* aumentado para logo 110px con padding */
+      --nav-h:    44px;
+      --ticker-h: 36px;
+      --break-h:  34px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ───── SCROLLBAR ───── */
+    ::-webkit-scrollbar { width: 6px; height: 4px; }
+    ::-webkit-scrollbar-track { background: var(--navy-3); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dk); border-radius: 3px; }
+
+    /* ───── UTILITY ───── */
+    .gold { color: var(--gold); }
+    .sec  { color: var(--sec); }
+    .tag {
+      display: inline-block;
+      font-family: var(--ff-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      margin-bottom: 8px;
+    }
+    .divider-gold { width: 40px; height: 2px; background: var(--gold); margin: 10px 0 14px; }
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 9px 22px;
+      border: none;
+      cursor: pointer;
+      transition: background .25s, color .25s, transform .18s;
+    }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-1px); }
+    .btn-outline {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: background .25s, color .25s;
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--navy); }
+
+    /* hover dorado global */
+    a:hover { color: var(--gold); }
+    a { transition: color .2s; }
+
+    /* ───── ANIMATIONS ───── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes break-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+    .anim-1 { animation: fadeUp .7s ease both; }
+    .anim-2 { animation: fadeUp .7s .12s ease both; }
+    .anim-3 { animation: fadeUp .7s .24s ease both; }
+    .anim-4 { animation: fadeUp .7s .36s ease both; }
+    .anim-5 { animation: fadeUp .7s .48s ease both; }
+
+    /* ══════════════════════════════
+       CAMBIO 1+2: HEADER — solo logo + CTA
+    ══════════════════════════════ */
+    #header {
+      position: relative;
+      background: linear-gradient(135deg, #0a1628 0%, #1a2f4e 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 32px;
+    }
+    #header a.logo-link {
+      display: block;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .header-cta { flex-shrink: 0; display: flex; align-items: center; gap: 12px; position: absolute; right: 32px; }
+
+    /* CAMBIO 2: BARRA DE MENÚ SEPARADA */
+    #nav-bar {
+      position: relative;
+      z-index: 999;
+      height: var(--nav-h);
+      background: var(--navy-3);
+      border-bottom: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      overflow: hidden;
+    }
+    #nav-bar nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      width: 100%;
+    }
+    #nav-bar nav::-webkit-scrollbar { display: none; }
+    #nav-bar nav a {
+      flex-shrink: 0;
+      font-family: var(--ff-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      color: var(--sec);
+      padding: 6px 11px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    #nav-bar nav a:hover,
+    #nav-bar nav a.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span { width: 22px; height: 2px; background: var(--sec); transition: background .2s; display: block; }
+    .hamburger:hover span { background: var(--gold); }
+
+    /* ══════════════════════════════
+       TICKER FINANCIERO
+       CAMBIO 2: top = header + nav
+    ══════════════════════════════ */
+    #ticker-bar {
+      position: relative;
+      z-index: 998;
+      height: var(--ticker-h);
+      background: #090f18;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    #ticker-bar .tradingview-widget-container { height: 100%; }
+    #ticker-bar .tradingview-widget-container__widget { height: 100%; }
+
+    /* ══════════════════════════════
+       BREAKING NEWS BAR
+       CAMBIO 2: top = header + nav + ticker
+       CAMBIO 3: bg #1a3a4a, anim 18s
+    ══════════════════════════════ */
+    #breaking-bar {
+      position: relative;
+      z-index: 997;
+      height: var(--break-h);
+      background: var(--navy-2);
+      border-bottom: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    /* CAMBIO 3: azul petróleo en lugar de rojo */
+    .break-label {
+      flex-shrink: 0;
+      background: #1a3a4a;
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 0 14px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 2;
+      border-right: 1px solid var(--border);
+    }
+    .break-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse-dot 1.2s ease-in-out infinite;
+    }
+    .break-track-wrap {
+      flex: 1;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    /* CAMBIO 3: velocidad triplicada 55s → 18s */
+    .break-track {
+      display: flex;
+      gap: 0;
+      white-space: nowrap;
+      animation: break-scroll 36s linear infinite;
+      will-change: transform;
+    }
+    .break-track:hover { animation-play-state: paused; }
+    .break-item {
+      font-family: var(--ff-body);
+      font-size: 12px;
+      color: var(--sec);
+      padding: 0 36px;
+      position: relative;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .break-item:hover { color: var(--gold); }
+    .break-item::before {
+      content: '◆';
+      color: var(--gold);
+      font-size: 7px;
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    /* ══════════════════════════════
+       MAIN LAYOUT OFFSET
+       CAMBIO 2: suma las 4 barras
+    ══════════════════════════════ */
+    #page-body {
+      padding-top: 0;
+    }
+
+    /* ══════════════════════════════
+       SECTION LABEL
+    ══════════════════════════════ */
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border2);
+    }
+    .section-head h2 {
+      font-family: var(--ff-head);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .section-head::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    #hero {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 40px 28px 32px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 28px;
+    }
+    .hero-main { position: relative; cursor: pointer; }
+    .hero-img { width: 100%; height: 480px; overflow: hidden; position: relative; }
+    .hero-img img { transition: transform .6s ease; }
+    .hero-main:hover .hero-img img { transform: scale(1.03); }
+    .hero-img-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #1a2e45 0%, #0a1a2e 60%, #152234 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-img-placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(201,168,76,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(201,168,76,0.05) 0%, transparent 50%);
+    }
+    .hero-img-placeholder-icon { width: 80px; height: 80px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; opacity: .4; }
+    .hero-img-placeholder-icon svg { width: 36px; height: 36px; fill: var(--gold); }
+    .hero-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 32px 28px 28px;
+      background: linear-gradient(to top, rgba(9,15,24,.96) 0%, rgba(9,15,24,.6) 60%, transparent 100%);
+    }
+    .hero-overlay .tag { font-size: 9px; }
+    .hero-overlay h1 { font-family: var(--ff-head); font-size: 32px; font-weight: 700; line-height: 1.22; color: var(--white); margin-bottom: 10px; max-width: 540px; }
+    .hero-overlay h1:hover { color: var(--gold-lt); }
+    .hero-overlay p { font-family: var(--ff-body); font-size: 14px; color: var(--sec); line-height: 1.6; max-width: 480px; }
+    .hero-meta { display: flex; align-items: center; gap: 14px; margin-top: 12px; font-size: 11px; color: var(--sec); letter-spacing: .04em; }
+    .hero-meta .author { color: var(--gold); font-weight: 600; }
+    .hero-meta .dot { color: var(--border); }
+    .hero-secondary { display: flex; flex-direction: column; gap: 2px; }
+    .story-sm { display: grid; grid-template-columns: 100px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border2); cursor: pointer; transition: background .2s; }
+    .story-sm:first-child { padding-top: 0; }
+    .story-sm:last-child { border-bottom: none; }
+    .story-sm-img { width: 100px; height: 72px; overflow: hidden; flex-shrink: 0; }
+    .story-sm-img-ph { width: 100%; height: 100%; background: linear-gradient(135deg, #1a2e45, #0a1a2e); display: flex; align-items: center; justify-content: center; }
+    .story-sm-img img { transition: transform .4s; }
+    .story-sm:hover .story-sm-img img { transform: scale(1.06); }
+    .story-sm-body .tag { font-size: 9px; margin-bottom: 5px; }
+    .story-sm-body h3 { font-family: var(--ff-head); font-size: 14.5px; font-weight: 700; line-height: 1.3; color: var(--white); margin-bottom: 5px; }
+    .story-sm:hover h3 { color: var(--gold); }
+    .story-sm-body .meta { font-size: 10px; color: var(--sec); letter-spacing: .03em; }
+
+    /* ══════════════════════════════
+       MAIN + SIDEBAR LAYOUT
+    ══════════════════════════════ */
+    #content-area {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 0 28px 48px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 48px;
+    }
+
+    /* ══════════════════════════════
+       SECTION BLOCKS
+    ══════════════════════════════ */
+    .section-block { margin-bottom: 48px; animation: fadeUp .6s ease both; }
+    .section-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 22px; }
+    .story-main { cursor: pointer; }
+    .story-main-img { width: 100%; height: 210px; overflow: hidden; margin-bottom: 14px; }
+    .story-main-img img { transition: transform .5s; width: 100%; height: 100%; object-fit: cover; }
+    .story-main:hover .story-main-img img { transform: scale(1.04); }
+    .story-main-img-ph { width: 100%; height: 100%; background: linear-gradient(135deg, #142030 0%, #0c1824 100%); display: flex; align-items: center; justify-content: center; }
+    .story-main h3 { font-family: var(--ff-head); font-size: 19px; font-weight: 700; line-height: 1.28; margin-bottom: 8px; }
+    .story-main:hover h3 { color: var(--gold); }
+    .story-main p { font-size: 13px; color: var(--sec); line-height: 1.6; }
+    .story-main .meta { font-size: 10.5px; color: var(--sec); margin-top: 8px; letter-spacing: .03em; }
+    .section-side { display: flex; flex-direction: column; gap: 18px; }
+    .story-side { padding-bottom: 18px; border-bottom: 1px solid var(--border2); cursor: pointer; }
+    .story-side:last-child { border-bottom: none; padding-bottom: 0; }
+    .story-side h4 { font-family: var(--ff-head); font-size: 14.5px; font-weight: 700; line-height: 1.3; margin-bottom: 5px; }
+    .story-side:hover h4 { color: var(--gold); }
+    .story-side p { font-size: 12.5px; color: var(--sec); line-height: 1.55; }
+    .story-side .meta { font-size: 10px; color: var(--sec); margin-top: 6px; opacity: .7; }
+    .ver-mas {
+      display: inline-flex; align-items: center; gap: 6px; margin-top: 18px;
+      font-family: var(--ff-body); font-size: 11px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--gold);
+      border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      transition: border-color .2s, gap .2s;
+    }
+    .ver-mas:hover { border-color: var(--gold); gap: 10px; color: var(--gold-lt); }
+    .ver-mas::after { content: '→'; font-size: 13px; }
+    .section-sep { height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin-bottom: 48px; }
+
+    /* ══════════════════════════════
+       SIDEBAR
+    ══════════════════════════════ */
+    #sidebar { border-left: 1px solid var(--border2); padding-left: 32px; }
+    .sidebar-revista { margin-bottom: 36px; }
+    .sidebar-title {
+      font-family: var(--ff-head); font-size: 12px; font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    /* CAMBIO 5: portada real */
+    .revista-cover {
+      width: 100%; height: 360px;
+      overflow: hidden; position: relative; margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    .revista-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* fallback si la imagen no carga */
+    .revista-cover-ph {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, #1c3050 0%, #0a1a2e 40%, #0f2040 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      position: relative; overflow: hidden;
+    }
+    .revista-cover-ph::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.12) 0%, transparent 65%);
+    }
+    .revista-cover-logo { font-family: var(--ff-head); font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: .06em; z-index: 1; }
+    .revista-cover-issue { font-family: var(--ff-body); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--sec); z-index: 1; }
+    .revista-cover-num { font-family: var(--ff-head); font-size: 64px; font-weight: 900; color: rgba(201,168,76,0.08); position: absolute; bottom: -12px; right: 12px; line-height: 1; z-index: 0; }
+    .revista-cover-lines { position: absolute; bottom: 30px; left: 0; right: 0; padding: 0 18px; z-index: 1; }
+    .revista-cover-hl { font-family: var(--ff-head); font-size: 12px; font-style: italic; color: var(--white); line-height: 1.4; opacity: .85; }
+    .sidebar-btn { width: 100%; text-align: center; display: block; }
+    .sidebar-latest { margin-bottom: 36px; }
+    .latest-item { padding: 13px 0; border-bottom: 1px solid var(--border2); cursor: pointer; }
+    .latest-item:last-child { border-bottom: none; }
+    .latest-item .tag { font-size: 8.5px; margin-bottom: 5px; }
+    .latest-item h5 { font-family: var(--ff-head); font-size: 13.5px; font-weight: 600; line-height: 1.32; color: var(--white); }
+    .latest-item:hover h5 { color: var(--gold); }
+    .latest-item .meta { font-size: 10px; color: var(--sec); margin-top: 4px; opacity: .7; }
+    .sidebar-promo { background: linear-gradient(135deg, #1a2e45 0%, #0c1a2c 100%); border: 1px solid var(--border); padding: 24px 20px; text-align: center; margin-bottom: 28px; }
+    .sidebar-promo h4 { font-family: var(--ff-head); font-size: 16px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
+    .sidebar-promo p { font-size: 12px; color: var(--sec); margin-bottom: 16px; line-height: 1.5; }
+
+    /* ══════════════════════════════
+       NEWSLETTER
+    ══════════════════════════════ */
+    #newsletter {
+      background: linear-gradient(135deg, #112233 0%, var(--navy-3) 100%);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 60px 28px; text-align: center;
+    }
+    .nl-inner { max-width: 560px; margin: 0 auto; }
+    .nl-eyebrow { font-family: var(--ff-body); font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    #newsletter h2 { font-family: var(--ff-head); font-size: 30px; font-weight: 700; line-height: 1.25; margin-bottom: 12px; }
+    #newsletter p { font-size: 14px; color: var(--sec); line-height: 1.65; margin-bottom: 28px; }
+    .nl-form { display: flex; gap: 0; max-width: 440px; margin: 0 auto; }
+    .nl-input {
+      flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      border-right: none; color: var(--white); font-family: var(--ff-body);
+      font-size: 13px; padding: 11px 16px; outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .nl-input::placeholder { color: var(--sec); opacity: .6; }
+    .nl-input:focus { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+    .nl-form .btn-gold { flex-shrink: 0; }
+    .nl-fine { font-size: 10.5px; color: var(--sec); margin-top: 14px; opacity: .6; }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    #footer { background: var(--navy-3); border-top: 1px solid var(--border); padding: 52px 28px 28px; }
+    .footer-top {
+      max-width: 1340px; margin: 0 auto;
+      display: grid; grid-template-columns: 220px 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 36px; border-bottom: 1px solid var(--border2);
+    }
+    .footer-brand .logo-line1 { font-family: var(--ff-head); font-size: 20px; font-weight: 700; letter-spacing: .04em; color: var(--white); margin-bottom: 4px; display: block; }
+    .footer-brand .logo-line1 .a-gold { color: var(--gold); }
+    .footer-brand .logo-line2 { font-family: var(--ff-body); font-size: 8.5px; font-weight: 400; letter-spacing: .22em; text-transform: uppercase; color: var(--sec); display: block; margin-bottom: 14px; }
+    .footer-brand p { font-size: 12.5px; color: var(--sec); line-height: 1.65; margin-bottom: 18px; }
+    .footer-socials { display: flex; gap: 8px; }
+    .social-btn { width: 34px; height: 34px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color .2s, background .2s; color: var(--sec); font-size: 13px; }
+    .social-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); color: var(--gold); }
+    .footer-col h4 { font-family: var(--ff-head); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .footer-col ul { display: flex; flex-direction: column; gap: 8px; }
+    .footer-col ul a { font-size: 12.5px; color: var(--sec); transition: color .2s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-contact p { font-size: 12.5px; color: var(--sec); line-height: 1.8; }
+    .footer-contact a { color: var(--gold); }
+    .footer-contact a:hover { color: var(--gold-lt); }
+    .footer-bottom { max-width: 1340px; margin: 0 auto; padding-top: 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .footer-bottom p { font-size: 11.5px; color: var(--sec); opacity: .55; }
+    .footer-legal { display: flex; gap: 18px; }
+    .footer-legal a { font-size: 11.5px; color: var(--sec); opacity: .55; transition: color .2s, opacity .2s; }
+    .footer-legal a:hover { color: var(--gold); opacity: 1; }
+
+    /* ══════════════════════════════
+       DECORATIVE
+    ══════════════════════════════ */
+    .gold-line-accent { height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 0 0 32px; opacity: .5; }
+
+    /* ══════════════════════════════
+       PLACEHOLDERS
+    ══════════════════════════════ */
+    .ph-geo {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(201,168,76,0.03) 0px, rgba(201,168,76,0.03) 1px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(90deg, rgba(201,168,76,0.03) 0px, rgba(201,168,76,0.03) 1px, transparent 1px, transparent 40px);
+    }
+    .ph-icon { position: relative; z-index: 1; opacity: .25; }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 1100px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-secondary { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+      .story-sm { grid-template-columns: 1fr; }
+      .story-sm-img { width: 100%; height: 120px; }
+      #content-area { grid-template-columns: 1fr; gap: 32px; }
+      #sidebar { border-left: none; border-top: 1px solid var(--border2); padding-left: 0; padding-top: 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --header-h: 72px;
+        --nav-h: 0px; /* nav se oculta en mobile */
+      }
+      #header { padding: 0 18px; }
+      #nav-bar { display: none; overflow: visible; height: auto; max-height: 0; transition: max-height .3s ease; }
+      #nav-bar.open {
+        display: flex;
+        max-height: 400px;
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        z-index: 9999;
+        top: var(--header-h);
+        padding: 4px 18px 12px;
+      }
+      #nav-bar.open nav { flex-direction: column; align-items: flex-start; gap: 0; }
+      #nav-bar.open nav a { padding: 10px 0; border-bottom: 1px solid var(--border2); width: 100%; border-right: none; }
+      .hamburger { display: flex; }
+      .hero-img { height: 300px; }
+      .hero-overlay h1 { font-size: 22px; }
+      .section-grid { grid-template-columns: 1fr; }
+      .hero-secondary { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .nl-form { flex-direction: column; }
+      .nl-input { border-right: 1px solid var(--border); border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     CAMBIO 1+2: HEADER — logo SVG grande + botón suscribirse
+══════════════════════════════ -->
+<header id="header">
+
+  <a href="/"><img src="Logo_con_fondo_transparente.png" alt="Clave Empresarial" style="height:165px; width:auto;"></a>
+
+  <div class="header-cta">
+    <!-- CAMBIO 6: hook Stripe en botón SUSCRIBIRSE -->
+    <!-- STRIPE: reemplazar href con payment link cuando esté listo -->
+    <a href="#newsletter"
+       class="btn-gold"
+       data-stripe-ready="false">Suscribirse</a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════
+     CAMBIO 2: BARRA DE MENÚ SEPARADA
+══════════════════════════════ -->
+<div id="nav-bar">
+  <nav>
+    <a href="#empresarial">Empresarial</a>
+    <a href="#economia">Economía</a>
+    <a href="#tecnologia">Tecnología</a>
+    <a href="#movilidad">Movilidad</a>
+    <a href="#realestate">Real Estate</a>
+    <a href="#turismo">Turismo</a>
+    <a href="#lideres">Líderes</a>
+    <a href="#cupulas">Cúpulas</a>
+    <a href="#salud">Salud y Cultura</a>
+    <a href="revista.html">Revista Digital</a>
+  </nav>
+</div>
+
+<!-- ══════════════════════════════
+     TICKER FINANCIERO (TradingView)
+══════════════════════════════ -->
+<div id="ticker-bar">
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+      "symbols": [
+        { "proName": "FX:USDMXN",       "title": "USD/MXN" },
+        { "proName": "FX:EURMXN",        "title": "EUR/MXN" },
+        { "proName": "BMEX:IPC",         "title": "IPC BMV" },
+        { "proName": "FX:GBPMXN",        "title": "GBP/MXN" },
+        { "proName": "COINBASE:BTCUSD",  "title": "Bitcoin" },
+        { "proName": "TVC:GOLD",         "title": "Oro" },
+        { "proName": "TVC:SILVER",       "title": "Plata" },
+        { "proName": "NYMEX:CL1!",       "title": "Petróleo" }
+      ],
+      "showSymbolLogo": false,
+      "colorTheme": "dark",
+      "isTransparent": true,
+      "displayMode": "adaptive",
+      "locale": "es"
+    }
+    </script>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     BREAKING NEWS BAR
+     CAMBIO 3: bg #1a3a4a, velocidad 18s
+══════════════════════════════ -->
+<div id="breaking-bar">
+  <div class="break-label">
+    <div class="break-dot"></div>
+    En vivo
+  </div>
+  <div class="break-track-wrap">
+    <div class="break-track" id="break-track">
+      <span class="break-item">Banxico mantiene tasa en 9.5%; analistas esperan primer recorte en julio</span>
+      <span class="break-item">AMEXCAP reporta captación récord de inversión privada en Q1 2026</span>
+      <span class="break-item">Grupo Bimbo anuncia expansión en Asia Pacífico con inversión de 1,200 MDP</span>
+      <span class="break-item">FIBRA UNO adquiere portafolio industrial en el Bajío por 3,400 millones de pesos</span>
+      <span class="break-item">Nearshoring impulsa corredor logístico Monterrey-Laredo con 47 nuevas plantas en 2026</span>
+      <span class="break-item">Coppel Digital supera los 8 millones de usuarios activos en su plataforma financiera</span>
+      <span class="break-item">Pemex logra refinería Dos Bocas a 94% de capacidad operativa tras ajustes técnicos</span>
+      <span class="break-item">México escala a lugar 28 en Índice Global de Competitividad; primer avance en 4 años</span>
+      <!-- Duplicado para loop continuo -->
+      <span class="break-item">Banxico mantiene tasa en 9.5%; analistas esperan primer recorte en julio</span>
+      <span class="break-item">AMEXCAP reporta captación récord de inversión privada en Q1 2026</span>
+      <span class="break-item">Grupo Bimbo anuncia expansión en Asia Pacífico con inversión de 1,200 MDP</span>
+      <span class="break-item">FIBRA UNO adquiere portafolio industrial en el Bajío por 3,400 millones de pesos</span>
+      <span class="break-item">Nearshoring impulsa corredor logístico Monterrey-Laredo con 47 nuevas plantas en 2026</span>
+      <span class="break-item">Coppel Digital supera los 8 millones de usuarios activos en su plataforma financiera</span>
+      <span class="break-item">Pemex logra refinería Dos Bocas a 94% de capacidad operativa tras ajustes técnicos</span>
+      <span class="break-item">México escala a lugar 28 en Índice Global de Competitividad; primer avance en 4 años</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CUERPO DE PÁGINA
+══════════════════════════════ -->
+<div id="page-body">
+
+  <!-- ══ HERO ══ -->
+  <section id="hero">
+
+    <article class="hero-main anim-1" data-noticia-hero>
+      <div class="hero-img">
+        <div class="hero-img-placeholder">
+          <div class="ph-geo"></div>
+          <div class="hero-img-placeholder-icon ph-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+        </div>
+        <div class="hero-overlay">
+          <span class="tag">Economía</span>
+          <h1>El nuevo mapa del poder empresarial en México: las 50 fortunas que redefinen el siglo XXI</h1>
+          <p>Un análisis exclusivo de cómo las grandes familias empresariales mexicanas están repositionando sus capitales ante el avance del nearshoring y la volatilidad global.</p>
+          <div class="hero-meta">
+            <span class="author">Redacción Clave</span>
+            <span class="dot">·</span>
+            <span>20 de mayo, 2026</span>
+            <span class="dot">·</span>
+            <span>8 min de lectura</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <aside class="hero-secondary anim-2">
+      <article class="story-sm">
+        <div class="story-sm-img"><div class="story-sm-img-ph ph-geo"></div></div>
+        <div class="story-sm-body">
+          <span class="tag">Tecnología</span>
+          <h3>Startups de IA mexicanas recaudan 780 MDD en primer semestre del 2026</h3>
+          <span class="meta">19 may · 5 min</span>
+        </div>
+      </article>
+      <article class="story-sm">
+        <div class="story-sm-img"><div class="story-sm-img-ph ph-geo"></div></div>
+        <div class="story-sm-body">
+          <span class="tag">Real Estate</span>
+          <h3>Polanco y Santa Fe consolidan mayor demanda de oficinas clase A desde 2019</h3>
+          <span class="meta">18 may · 4 min</span>
+        </div>
+      </article>
+      <article class="story-sm">
+        <div class="story-sm-img"><div class="story-sm-img-ph ph-geo"></div></div>
+        <div class="story-sm-body">
+          <span class="tag">Líderes</span>
+          <h3>Alejandro Ramírez (Cinépolis): "El entretenimiento en vivo es el siguiente capítulo"</h3>
+          <span class="meta">17 may · 6 min</span>
+        </div>
+      </article>
+    </aside>
+  </section>
+
+  <!-- ══ CONTENT AREA + SIDEBAR ══ -->
+  <div id="content-area">
+
+    <main id="main-content">
+      <div class="gold-line-accent"></div>
+
+      <!-- SECCIÓN: EMPRESARIAL -->
+      <section class="section-block anim-2" id="empresarial">
+        <div class="section-head"><h2>Empresarial</h2></div>
+        <div class="section-grid" id="grid-empresarial" data-seccion="Empresarial">
+          <article class="story-main">
+            <div class="story-main-img"><div class="story-main-img-ph ph-geo"></div></div>
+            <span class="tag">Estrategia</span>
+            <h3>Femsa reorganiza su portafolio: desinvierte en retail y acelera en logística refrigerada</h3>
+            <p>El gigante regiomontano consolida su apuesta por la cadena de frío con tres adquisiciones estratégicas en 2026.</p>
+            <div class="meta">18 de mayo · 7 min</div>
+            <a href="#" class="ver-mas">Ver más</a>
+          </article>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Fusiones</span>
+              <h4>Grupo Herdez y Sigma estudian posible alianza en proteínas alternativas</h4>
+              <p>Fuentes cercanas confirman conversaciones preliminares para un JV en el segmento plant-based.</p>
+              <div class="meta">17 may · 4 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Manufactura</span>
+              <h4>Vitro abre su planta más grande en Nuevo León con inversión de 4,200 MDP</h4>
+              <p>La instalación producirá vidrio automotriz para exportación a Estados Unidos y Canadá.</p>
+              <div class="meta">16 may · 3 min</div>
+            </article>
+          </div>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Finanzas</span>
+              <h4>Banorte revela estrategia de crecimiento en banca de inversión para 2026-2028</h4>
+              <p>El plan contempla la apertura de 12 oficinas regionales y la contratación de 400 especialistas.</p>
+              <div class="meta">15 may · 5 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Cúpulas</span>
+              <h4>CCE llama a diálogo tripartita ante tensiones en reforma de subcontratación</h4>
+              <p>El Consejo Coordinador Empresarial exige certeza jurídica antes de la discusión legislativa.</p>
+              <div class="meta">14 may · 3 min</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- SECCIÓN: ECONOMÍA -->
+      <section class="section-block anim-3" id="economia">
+        <div class="section-head"><h2>Economía</h2></div>
+        <div class="section-grid" id="grid-economia" data-seccion="Economía">
+          <article class="story-main">
+            <div class="story-main-img"><div class="story-main-img-ph ph-geo"></div></div>
+            <span class="tag">Política Monetaria</span>
+            <h3>La gran apuesta de Banxico: contener inflación sin sacrificar el crecimiento en año electoral</h3>
+            <p>Con la tasa de referencia en 9.5%, el dilema de la Junta de Gobierno se agudiza ante señales mixtas del mercado laboral.</p>
+            <div class="meta">19 de mayo · 9 min</div>
+            <a href="#" class="ver-mas">Ver más</a>
+          </article>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Comercio</span>
+              <h4>Exportaciones manufactureras crecen 12.4% anual; automotriz lidera el repunte</h4>
+              <p>El sector exportador mexicano supera expectativas del FMI para el primer trimestre del año.</p>
+              <div class="meta">18 may · 4 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Nearshoring</span>
+              <h4>Inversión extranjera directa alcanza récord histórico: 42,300 MDD en 2025</h4>
+              <p>El traslado de cadenas de suministro desde Asia consolida a México como destino prioritario.</p>
+              <div class="meta">16 may · 5 min</div>
+            </article>
+          </div>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Presupuesto</span>
+              <h4>SHCP proyecta déficit fiscal de 3.2% del PIB; Hacienda defiende consolidación gradual</h4>
+              <p>Los mercados reaccionan con cautela ante la revisión de las metas del Marco Fiscal de Mediano Plazo.</p>
+              <div class="meta">15 may · 6 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Energía</span>
+              <h4>Precios de energía eléctrica industrial frenan inversión en zonas fronterizas clave</h4>
+              <p>Empresarios del norte alertan sobre competitividad comprometida frente a plantas texanas.</p>
+              <div class="meta">13 may · 4 min</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- SECCIÓN: TECNOLOGÍA -->
+      <section class="section-block" id="tecnologia">
+        <div class="section-head"><h2>Tecnología</h2></div>
+        <div class="section-grid" id="grid-tecnologia" data-seccion="Tecnología">
+          <article class="story-main">
+            <div class="story-main-img"><div class="story-main-img-ph ph-geo"></div></div>
+            <span class="tag">Inteligencia Artificial</span>
+            <h3>La IA ya dirige el inventario de los 10 mayores retailers mexicanos: así está cambiando el negocio</h3>
+            <p>Oxxo, Liverpool y Chedraui lideran la adopción de modelos predictivos que reducen merma hasta 34%.</p>
+            <div class="meta">20 de mayo · 8 min</div>
+            <a href="#" class="ver-mas">Ver más</a>
+          </article>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Fintech</span>
+              <h4>Nu México alcanza 18 millones de clientes y anuncia productos de inversión para 2026</h4>
+              <p>La neobank brasileña consolida su liderazgo en el segmento desatendido por la banca tradicional.</p>
+              <div class="meta">19 may · 5 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Ciberseguridad</span>
+              <h4>Empresas mexicanas pierden 2,400 MDP al año por ataques de ransomware</h4>
+              <p>Reporte de Deloitte revela que el sector financiero concentra 60% de los incidentes registrados.</p>
+              <div class="meta">17 may · 4 min</div>
+            </article>
+          </div>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Semiconductores</span>
+              <h4>Jalisco Tech Hub atrae a su primer fabricante asiático de chips: inversión de 900 MDD</h4>
+              <p>La apuesta por el ecosistema de semiconductores en el Occidente del país toma forma concreta.</p>
+              <div class="meta">16 may · 5 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Startups</span>
+              <h4>Konfío supera los 50,000 créditos PYME activos y lanza programa de acompañamiento empresarial</h4>
+              <p>La plataforma de financiamiento para pequeñas empresas anuncia expansión a Centroamérica.</p>
+              <div class="meta">15 may · 3 min</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- SECCIÓN: MOVILIDAD -->
+      <section class="section-block" id="movilidad">
+        <div class="section-head"><h2>Movilidad</h2></div>
+        <div class="section-grid" id="grid-movilidad" data-seccion="Movilidad">
+          <article class="story-main">
+            <div class="story-main-img"><div class="story-main-img-ph ph-geo"></div></div>
+            <span class="tag">Automotriz</span>
+            <h3>Tesla, BYD y GM se disputan el mercado de vehículos eléctricos en México: quién va ganando</h3>
+            <p>Las ventas de EVs crecen 89% interanual pero la infraestructura de carga sigue rezagada ante la demanda.</p>
+            <div class="meta">18 de mayo · 7 min</div>
+            <a href="#" class="ver-mas">Ver más</a>
+          </article>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Infraestructura</span>
+              <h4>Tren Maya registra 4.2 millones de pasajeros en su primer año completo de operación</h4>
+              <p>Las cifras superan proyecciones iniciales aunque la conectividad con aeropuertos sigue siendo un reto.</p>
+              <div class="meta">17 may · 5 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Aviación</span>
+              <h4>Volaris reporta márgenes récord; analistas anticipan expansión a rutas transatlánticas</h4>
+              <p>La aerolínea de bajo costo consolida su posición dominante en rutas domésticas y binacionales.</p>
+              <div class="meta">16 may · 4 min</div>
+            </article>
+          </div>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Logística</span>
+              <h4>Amazon abre su centro de distribución más grande en LATAM en Tepotzotlán, Estado de México</h4>
+              <p>La instalación de 180,000 m² automatizará el procesamiento de hasta 500,000 paquetes diarios.</p>
+              <div class="meta">15 may · 3 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Puertos</span>
+              <h4>Manzanillo supera a Lázaro Cárdenas en carga contenerizada por primera vez desde 2018</h4>
+              <p>El reordenamiento del comercio Asia-TLCAN favorece la ruta del Pacífico norte mexicano.</p>
+              <div class="meta">13 may · 4 min</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- SECCIÓN: REAL ESTATE -->
+      <section class="section-block" id="realestate">
+        <div class="section-head"><h2>Real Estate</h2></div>
+        <div class="section-grid" id="grid-realestate" data-seccion="Real Estate">
+          <article class="story-main">
+            <div class="story-main-img"><div class="story-main-img-ph ph-geo"></div></div>
+            <span class="tag">Industrial</span>
+            <h3>El corredor industrial del Bajío: el territorio más disputado del mercado inmobiliario mexicano en 2026</h3>
+            <p>Querétaro, Guanajuato y San Luis Potosí concentran 38% de la nueva oferta industrial del país ante la oleada de nearshoring.</p>
+            <div class="meta">17 de mayo · 8 min</div>
+            <a href="#" class="ver-mas">Ver más</a>
+          </article>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">Residencial</span>
+              <h4>Precios en Tulum suben 28% anual; expertos alertan sobre burbuja en Riviera Maya</h4>
+              <p>El mercado de lujo mantiene dinamismo pero la brecha con el mercado local se amplía a niveles históricos.</p>
+              <div class="meta">16 may · 5 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Oficinas</span>
+              <h4>Demanda de coworking en CDMX crece 45% y desplaza al modelo de arrendamiento tradicional</h4>
+              <p>IWG y WeWork compiten por el segmento corporativo con ofertas flexibles en colonias prime.</p>
+              <div class="meta">15 may · 3 min</div>
+            </article>
+          </div>
+          <div class="section-side">
+            <article class="story-side">
+              <span class="tag">FIBRAs</span>
+              <h4>FIBRA Prologis distribuye el dividendo más alto de su historia: 3.40 pesos por certificado</h4>
+              <p>El REIT industrial cierra Q1 con 99.1% de ocupación en su portafolio de naves logísticas.</p>
+              <div class="meta">14 may · 4 min</div>
+            </article>
+            <article class="story-side">
+              <span class="tag">Regulación</span>
+              <h4>CDMX debate nueva norma de densificación que permitiría torres de 40 pisos en Insurgentes</h4>
+              <p>Desarrolladores y vecinos se enfrentan ante el proyecto que busca resolver la crisis de vivienda asequible.</p>
+              <div class="meta">13 may · 5 min</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- SECCIÓN: TURISMO -->
+      <section class="section-block" id="turismo">
+        <div class="section-head"><h2>Turismo</h2></div>
+        <div class="section-grid" data-seccion="Turismo"></div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- SECCIÓN: LÍDERES -->
+      <section class="section-block" id="lideres">
+        <div class="section-head"><h2>Líderes</h2></div>
+        <div class="section-grid" data-seccion="Líderes"></div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- SECCIÓN: CÚPULAS -->
+      <section class="section-block" id="cupulas">
+        <div class="section-head"><h2>Cúpulas</h2></div>
+        <div class="section-grid" data-seccion="Cúpulas"></div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- SECCIÓN: SALUD Y CULTURA -->
+      <section class="section-block" id="salud">
+        <div class="section-head"><h2>Salud y Cultura</h2></div>
+        <div class="section-grid" data-seccion="Salud y Cultura"></div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- ══ CARRUSEL: EDICIONES DIGITALES ══ -->
+      <section class="section-block" id="ediciones-digitales">
+        <div class="section-head"><h2>Ediciones Digitales</h2></div>
+        <div class="edi-wrap">
+          <button class="edi-btn edi-prev" aria-label="Anterior">&#8249;</button>
+          <div class="edi-track" data-ediciones></div>
+          <button class="edi-btn edi-next" aria-label="Siguiente">&#8250;</button>
+        </div>
+      </section>
+
+      <div class="section-sep"></div>
+
+      <!-- ══ SECCIÓN: NOTICIAS DEL DÍA (Google Sheets via n8n) ══ -->
+      <section class="section-block" id="noticias-dia">
+        <div class="section-head"><h2>Noticias del Día</h2></div>
+        <!-- noticias.js renderiza aquí las tarjetas desde Google Sheets -->
+        <div class="nc-grid" data-noticias-grid></div>
+      </section>
+
+    </main>
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside id="sidebar">
+
+      <!-- CAMBIO 5: Portada real con <img> -->
+      <div class="sidebar-revista" id="revista-digital">
+        <div class="sidebar-title">Revista Mayo 2026</div>
+        <div class="revista-cover">
+          <!-- Imagen real de portada — debe existir en el mismo directorio -->
+          <img src="portada_mayo26.png"
+               alt="Portada Clave Empresarial Mayo 2026"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <!-- Fallback si la imagen no existe todavía -->
+          <div class="revista-cover-ph" style="display:none;">
+            <div class="ph-geo"></div>
+            <div class="revista-cover-logo" style="font-size:14px;letter-spacing:.08em;">CLAVE EMPRESARIAL</div>
+            <div class="revista-cover-issue">Mayo 2026 · No. 247</div>
+            <div class="revista-cover-lines">
+              <div class="revista-cover-hl">"Las 100 empresas que<br>transformarán México"</div>
+            </div>
+            <div class="revista-cover-num">247</div>
+          </div>
+        </div>
+        <a href="revista.html" class="btn-gold sidebar-btn">Ver Revista Digital</a>
+      </div>
+
+      <!-- Últimas noticias -->
+      <div class="sidebar-latest">
+        <div class="sidebar-title">Últimas Noticias</div>
+        <article class="latest-item">
+          <span class="tag">Cúpulas</span>
+          <h5>COPARMEX exige agenda de competitividad ante elecciones intermedias de 2026</h5>
+          <div class="meta">Hace 2 horas</div>
+        </article>
+        <article class="latest-item">
+          <span class="tag">Finanzas</span>
+          <h5>BMV cierra sesión al alza impulsada por mineras y sector financiero</h5>
+          <div class="meta">Hace 3 horas</div>
+        </article>
+        <article class="latest-item">
+          <span class="tag">Turismo</span>
+          <h5>Los Cabos rompe récord de visitantes internacionales en abril: 412,000 turistas</h5>
+          <div class="meta">Hace 4 horas</div>
+        </article>
+        <article class="latest-item">
+          <span class="tag">Salud</span>
+          <h5>Laboratorios Silanes lanza su primer biosimilar para mercado latinoamericano</h5>
+          <div class="meta">Hace 5 horas</div>
+        </article>
+        <article class="latest-item">
+          <span class="tag">Cultura</span>
+          <h5>Patronato cultural de Banamex reactiva programa de restauración de arte virreinal</h5>
+          <div class="meta">Hace 6 horas</div>
+        </article>
+      </div>
+
+      <div class="sidebar-promo">
+        <h4>Acceso Premium</h4>
+        <p>Reportajes exclusivos, análisis de fondo y entrevistas con los líderes que mueven México.</p>
+        <a href="#newsletter" class="btn-gold">Suscribirse ahora</a>
+      </div>
+
+      <div class="sidebar-title" style="margin-top:28px;">Análisis Exclusivo</div>
+      <article class="latest-item">
+        <span class="tag">Especial</span>
+        <h5>Radiografía del empresariado mexicano: quién tiene el poder real en 2026</h5>
+        <div class="meta">Edición especial · 24 páginas</div>
+      </article>
+      <article class="latest-item">
+        <span class="tag">Finanzas</span>
+        <h5>Guía completa: cómo invertir en FIBRAs en un entorno de tasas altas</h5>
+        <div class="meta">Análisis · 12 páginas</div>
+      </article>
+      <article class="latest-item">
+        <span class="tag">Legal</span>
+        <h5>Las reformas fiscales que todo empresario debe conocer para 2026</h5>
+        <div class="meta">Consultoría · 8 páginas</div>
+      </article>
+
+      <!-- Sponsors — renderizado por noticias.js desde SPONSOR-WEB sheet -->
+      <div id="sidebar-sponsors"></div>
+
+    </aside>
+  </div>
+
+  <!-- ══ NEWSLETTER ══ -->
+  <section id="newsletter">
+    <div class="nl-inner">
+      <div class="nl-eyebrow">Newsletter exclusivo</div>
+      <h2>La información empresarial que México necesita, directo a tu bandeja</h2>
+      <p>Más de 42,000 directivos y líderes empresariales reciben cada mañana nuestro resumen editorial. Únete a la conversación que define la agenda del empresariado mexicano.</p>
+      <!-- STRIPE: reemplazar action/endpoint cuando esté listo -->
+      <form class="nl-form" onsubmit="handleNL(event)" data-stripe-ready="false">
+        <input class="nl-input" type="email" placeholder="Tu correo corporativo" required />
+        <!-- STRIPE: reemplazar este botón con Stripe Checkout cuando esté listo -->
+        <button type="submit" class="btn-gold" data-stripe-ready="false">Suscribirme</button>
+      </form>
+      <p class="nl-fine">Sin spam · Puedes cancelar en cualquier momento · Datos protegidos bajo LFPDPPP</p>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-line1">Cl<span class="a-gold">A</span>ve Empresarial</span>
+        <span class="logo-line2">La Voz del Empresariado Mexicano</span>
+        <p>La revista de referencia para directivos, emprendedores y líderes de opinión del sector empresarial en México desde 1998.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" title="X / Twitter">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.733-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" class="social-btn" title="LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="#" class="social-btn" title="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="social-btn" title="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Secciones</h4>
+        <ul>
+          <li><a href="#empresarial">Empresarial</a></li>
+          <li><a href="#economia">Economía</a></li>
+          <li><a href="#tecnologia">Tecnología</a></li>
+          <li><a href="#movilidad">Movilidad</a></li>
+          <li><a href="#realestate">Real Estate</a></li>
+          <li><a href="#turismo">Turismo</a></li>
+          <li><a href="#lideres">Líderes</a></li>
+          <li><a href="#cupulas">Cúpulas</a></li>
+          <li><a href="#salud">Salud y Cultura</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>La Revista</h4>
+        <ul>
+          <li><a href="revista.html">Revista Digital</a></li>
+          <li><a href="#">Archivo de Ediciones</a></li>
+          <li><a href="#">Suscripción Impresa</a></li>
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">Eventos Clave</a></li>
+          <li><a href="#">Premios Empresariales</a></li>
+          <li><a href="#">Índice Clave 100</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-contact">
+        <h4>Contacto</h4>
+        <p>
+          Redacción<br>
+          <a href="mailto:contacto@claveempresarial.mx">contacto@claveempresarial.mx</a><br><br>
+          Publicidad<br>
+          <a href="mailto:publicidad@claveempresarial.mx">publicidad@claveempresarial.mx</a><br><br>
+          Suscripciones<br>
+          <a href="mailto:suscripciones@claveempresarial.mx">suscripciones@claveempresarial.mx</a><br><br>
+          Ciudad de México, México<br>
+          Tel: +52 (55) 1234-5678
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Clave Empresarial. Todos los derechos reservados.</p>
+      <div class="footer-legal">
+        <a href="#">Aviso de Privacidad</a>
+        <a href="#">Términos de Uso</a>
+        <a href="#">Política Editorial</a>
+        <a href="#">Publicidad</a>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /#page-body -->
+
+<script>
+  // ── HAMBURGER → toggle #nav-bar (CAMBIO 2) ──
+  const ham = document.getElementById('hamburger');
+  const navBar = document.getElementById('nav-bar');
+  ham.addEventListener('click', () => navBar.classList.toggle('open'));
+
+  // ── HEADER SCROLL SHADOW ──
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.style.boxShadow = window.scrollY > 10 ? '0 2px 24px rgba(0,0,0,0.5)' : 'none';
+  }, { passive: true });
+
+  // ── ACTIVE NAV ON SCROLL ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#nav-bar nav a');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`#nav-bar nav a[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => obs.observe(s));
+
+  // ── NEWSLETTER FORM ──
+  function handleNL(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-gold');
+    const orig = btn.textContent;
+    btn.textContent = '¡Suscrito!';
+    btn.style.background = '#6dbb8a';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; e.target.reset(); }, 3000);
+  }
+
+  // ── FADE-IN ON SCROLL ──
+  const fadeEls = document.querySelectorAll('.section-block');
+  const fadeObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  fadeEls.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .65s ease, transform .65s ease';
+    fadeObs.observe(el);
+  });
+
+  // ── BREAKING NEWS PAUSE ON HOVER ──
+  const breakTrack = document.getElementById('break-track');
+  if (breakTrack) {
+    breakTrack.addEventListener('mouseenter', () => breakTrack.style.animationPlayState = 'paused');
+    breakTrack.addEventListener('mouseleave', () => breakTrack.style.animationPlayState = 'running');
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // GNEWS API CON CACHÉ DIARIA EN LOCALSTORAGE
+  // Fuente: gnews.io — imágenes confiables por artículo
+  // ══════════════════════════════════════════════════════════
+  // TODO: reemplazar con key de gnews.io (registro gratuito en https://gnews.io)
+  const GNEWS_KEY      = 'd181a04dce47a5950953789512af4cef';
+  const CACHE_KEY      = 'claveempresarial_gnews';
+  const CACHE_DATE_KEY = 'claveempresarial_gnews_date';
+
+  // Clasificación por sección según palabras clave del título/descripción
+  const SECTION_KEYWORDS = {
+    empresarial: ['empresa','empresarial','negocio','corporativo','bimbo','femsa','walmart',
+                  'grupo','conglomerado','ceo','director','consejo','accionista','holding'],
+    economia:    ['economía','economia','pib','inflación','inflacion','banxico','peso','dólar',
+                  'dolar','exportación','exportacion','importación','importacion','fiscal',
+                  'hacienda','shcp','inegi','banco de mexico','finanza'],
+    tecnologia:  ['tecnología','tecnologia','digital','inteligencia artificial',' ia ','startup',
+                  'software','app','ciberseguridad','fintech','ecommerce','e-commerce',
+                  'blockchain','nube','cloud','datos','data'],
+    movilidad:   ['automotriz','vehículo','vehiculo','auto ','automóvil','automovil','transporte',
+                  'logística','logistica','aerolínea','aerolinea','vuelo','tren','puerto',
+                  'camión','camion','eléctrico','electrico'],
+    realestate:  ['inmobiliario','vivienda','edificio','construcción','construccion','fibra',
+                  'oficina','arrendamiento','propiedad','bienes raíces','raices',
+                  'desarrollador','metros cuadrados','bienesraíces']
+  };
+
+  // Tags por sección (rotación para las tarjetas)
+  const SECTION_TAGS = {
+    empresarial: ['Estrategia','Fusiones','Manufactura','Finanzas','Cúpulas'],
+    economia:    ['Política Monetaria','Comercio','Nearshoring','Presupuesto','Energía'],
+    tecnologia:  ['Inteligencia Artificial','Fintech','Ciberseguridad','Semiconductores','Startups'],
+    movilidad:   ['Automotriz','Infraestructura','Aviación','Logística','Puertos'],
+    realestate:  ['Industrial','Residencial','Oficinas','FIBRAs','Regulación']
+  };
+
+  function classifyArticle(article) {
+    const text = ((article.title || '') + ' ' + (article.description || '')).toLowerCase();
+    for (const [section, kws] of Object.entries(SECTION_KEYWORDS)) {
+      if (kws.some(kw => text.includes(kw))) return section;
+    }
+    return 'empresarial'; // catch-all
+  }
+
+  function formatDate(isoStr) {
+    if (!isoStr) return '';
+    const d = new Date(isoStr);
+    return d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' });
+  }
+
+  function truncate(str, max) {
+    if (!str) return '';
+    return str.length > max ? str.slice(0, max).trim() + '…' : str;
+  }
+
+  function phGeoHtml() {
+    return `<div class="story-main-img-ph ph-geo" style="position:relative;"></div>`;
+  }
+
+  function renderSectionGrid(sectionId, articles) {
+    const grid = document.getElementById('grid-' + sectionId);
+    if (!grid || articles.length < 1) return;
+
+    const tags  = SECTION_TAGS[sectionId] || ['Análisis','Negocios','Mercados','Opinión','Datos'];
+    const main  = articles[0];
+    const s1    = articles[1] || null;
+    const s2    = articles[2] || null;
+    const s3    = articles[3] || null;
+    const s4    = articles[4] || null;
+
+    // GNews usa article.image — fallback a portada si es null
+    const mainImg = main.image
+      ? `<img src="${main.image}" alt="${(main.title||'').replace(/"/g,'')}"
+              onerror="this.src='portada_mayo26.png';">`
+      : `<img src="portada_mayo26.png" alt="Clave Empresarial">`;
+
+    const sideHtml = (art, tagIdx) => {
+      if (!art) return '';
+      const t = truncate(art.title, 90);
+      const d = truncate(art.description, 110);
+      const url = (art.url && art.url.trim()) ? art.url : null;
+      return `<article class="story-side">
+        <span class="tag">${tags[tagIdx] || tags[0]}</span>
+        <h4>${url ? `<a href="${url}" target="_blank" rel="noopener">${t}</a>` : t}</h4>
+        ${d ? `<p>${d}</p>` : ''}
+        <div class="meta">${formatDate(art.publishedAt)}</div>
+      </article>`;
+    };
+
+    grid.innerHTML = `
+      <article class="story-main">
+        <div class="story-main-img">${mainImg}</div>
+        <span class="tag">${tags[0]}</span>
+        <h3>${(main.url && main.url.trim()) ? `<a href="${main.url}" target="_blank" rel="noopener">${truncate(main.title,120)}</a>` : truncate(main.title,120)}</h3>
+        <p>${truncate(main.description,160)}</p>
+        <div class="meta">${formatDate(main.publishedAt)}</div>
+        ${(main.url && main.url.trim()) ? `<a href="${main.url}" target="_blank" rel="noopener" class="ver-mas">Ver más</a>` : ''}
+      </article>
+      <div class="section-side">
+        ${sideHtml(s1, 1)}
+        ${sideHtml(s2, 2)}
+      </div>
+      <div class="section-side">
+        ${sideHtml(s3, 3)}
+        ${sideHtml(s4, 4)}
+      </div>`;
+  }
+
+  async function loadNews() {
+    // No hacer nada si la clave sigue siendo placeholder
+    if (!GNEWS_KEY || GNEWS_KEY === 'GNEWS_KEY') return;
+
+    const today = new Date().toDateString();
+    let articles = null;
+
+    // Verificar caché diaria (máx 1 petición por día)
+    try {
+      const cachedDate = localStorage.getItem(CACHE_DATE_KEY);
+      const cachedData = localStorage.getItem(CACHE_KEY);
+      if (cachedDate === today && cachedData) {
+        articles = JSON.parse(cachedData);
+        console.info('[Clave] Noticias cargadas desde caché local (GNews).');
+      }
+    } catch(e) { /* localStorage no disponible */ }
+
+    // Si no hay caché, llamar a GNews API
+    if (!articles) {
+      try {
+        const gnewsUrl = `https://gnews.io/api/v4/search?q=negocios+empresas+mexico&lang=es&country=mx&max=10&apikey=${GNEWS_KEY}`;
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(gnewsUrl)}`;
+        const res = await fetch(proxyUrl);
+        if (!res.ok) throw new Error(`Proxy error: ${res.status}`);
+        const wrapper = await res.json();                      // allorigins devuelve { contents: "..." }
+        const data = JSON.parse(wrapper.contents);             // GNews real: { articles: [...] }
+        // GNews devuelve articles[] con: title, description, url, image, publishedAt, source.name
+        articles = (data.articles || []).filter(a => a.title && a.url);
+        // Guardar en caché con fecha de hoy
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify(articles));
+          localStorage.setItem(CACHE_DATE_KEY, today);
+        } catch(e) { /* cuota excedida — continuar sin caché */ }
+        console.info(`[Clave] ${articles.length} noticias obtenidas de GNews y guardadas en caché.`);
+      } catch(err) {
+        console.warn('[Clave] No se pudo cargar GNews, usando contenido estático.', err.message);
+        return;
+      }
+    }
+
+    // Clasificar artículos por sección (máx 5 por sección)
+    const buckets = { empresarial:[], economia:[], tecnologia:[], movilidad:[], realestate:[] };
+    for (const art of articles) {
+      const sec = classifyArticle(art);
+      if (buckets[sec] && buckets[sec].length < 5) buckets[sec].push(art);
+      // Distribuir sobrantes a secciones con espacio
+      if (Object.values(buckets).every(b => b.length >= 5)) break;
+    }
+
+    // Renderizar cada sección con artículos reales
+    for (const [sectionId, arts] of Object.entries(buckets)) {
+      if (arts.length > 0) renderSectionGrid(sectionId, arts);
+    }
+  }
+
+  // Ejecutar al cargar la página
+  document.addEventListener('DOMContentLoaded', loadNews);
+</script>
+
+<!-- Sistema de noticias dinámicas desde Google Sheets -->
+<script src="js/noticias.js"></script>
+
+</body>
+</html>

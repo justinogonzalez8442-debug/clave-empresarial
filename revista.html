@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Revista Digital — Clave Empresarial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:    #0D1B2A;
+      --navy-dk: #0A1520;
+      --navy-hd: #0A1628;
+      --gold:    #C9A84C;
+      --gold-lt: #E2C06A;
+      --gold-dk: #A8883C;
+      --white:   #FFFFFF;
+      --sec:     #B0B8C1;
+      --border:  rgba(201,168,76,0.22);
+      --border2: rgba(176,184,193,0.14);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+    body { min-height: 100%; overflow-y: auto; background: var(--navy); }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: 'Lora', Georgia, serif;
+      color: var(--white);
+      user-select: none;
+    }
+
+    /* ══ ZOOM FLOTANTE ══ */
+    #zoom-float {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 30;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .zf-btn {
+      width: 34px;
+      height: 34px;
+      background: rgba(10,21,32,.75);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background .2s;
+      backdrop-filter: blur(6px);
+    }
+    .zf-btn:hover { background: rgba(201,168,76,.18); }
+    #zf-label {
+      font-family: var(--ff-body);
+      font-size: 10px;
+      color: rgba(201,168,76,.7);
+      letter-spacing: .06em;
+      min-width: 38px;
+      text-align: center;
+    }
+
+    /* ══ CARRUSEL DE EDICIONES ══ */
+    #ediciones {
+      padding: 48px 28px 64px;
+      background: var(--navy-dk);
+      border-top: 1px solid var(--border);
+    }
+    .ediciones-head {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border2);
+    }
+    .ediciones-grid {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .edicion-card {
+      width: 180px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform .25s;
+    }
+    .edicion-card:hover { transform: translateY(-6px); }
+    .edicion-portada {
+      width: 180px;
+      height: 254px; /* ratio A4 */
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, #1a2e45, #0a1a2e);
+      margin-bottom: 12px;
+    }
+    .edicion-portada img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s;
+    }
+    .edicion-card:hover .edicion-portada img { transform: scale(1.04); }
+    .edicion-nombre {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .edicion-leer {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ══ HEADER ══ */
+    #rv-header {
+      flex-shrink: 0;
+      height: auto;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #0a1628 0%, #1a2f4e 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .rv-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--sec);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-decoration: none;
+      text-transform: uppercase;
+      border: 1px solid var(--border2);
+      padding: 7px 16px;
+      transition: color .2s, border-color .2s;
+      white-space: nowrap;
+    }
+    .rv-back:hover { color: var(--gold); border-color: var(--border); }
+    .rv-back::before { content: '←'; margin-right: 2px; }
+    .rv-logo { display: flex; align-items: center; }
+    .rv-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      color: var(--gold);
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-align: right;
+    }
+    .rv-title span {
+      display: block;
+      font-family: 'Lora', serif;
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--sec);
+      letter-spacing: .1em;
+      margin-top: 2px;
+    }
+
+    /* ══ VIEWER ══ */
+    #viewer {
+      height: calc(100vh - 162px - 48px - 84px);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse at center, #16253a 0%, var(--navy-dk) 100%);
+    }
+
+    /* ══ NAVIGATION ARROWS ══ */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      width: 56px;
+      height: 56px;
+      background: rgba(10,21,32,0.7);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, transform .15s;
+      backdrop-filter: blur(4px);
+    }
+    .nav-arrow:hover:not(.disabled) {
+      background: rgba(201,168,76,0.15);
+      transform: translateY(-50%) scale(1.08);
+    }
+    .nav-arrow:active:not(.disabled) { transform: translateY(-50%) scale(0.95); }
+    .nav-arrow.disabled { opacity: .2; cursor: default; pointer-events: none; }
+    #btn-prev { left: 16px; }
+    #btn-next { right: 16px; }
+
+    /* ══ BOOK ══ */
+    #book {
+      display: flex;
+      position: relative;
+      box-shadow:
+        -16px 8px 48px rgba(0,0,0,0.65),
+         16px 8px 48px rgba(0,0,0,0.65),
+         0 24px 72px rgba(0,0,0,0.8);
+      transition: opacity .22s ease;
+    }
+    /* Book spine */
+    #book::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      background: linear-gradient(to right,
+        rgba(0,0,0,0.55) 0%,
+        rgba(0,0,0,0.10) 35%,
+        rgba(255,255,255,0.04) 50%,
+        rgba(0,0,0,0.10) 65%,
+        rgba(0,0,0,0.55) 100%);
+      z-index: 5;
+      pointer-events: none;
+    }
+    #book.turning { opacity: 0; }
+
+    /* ══ PAGE PANELS ══ */
+    .page-panel {
+      width: 390px;
+      height: 551px; /* A4 ratio 1:√2 */
+      overflow: hidden;
+      background: #f4ede0;
+      position: relative;
+      flex-shrink: 0;
+    }
+    #left-panel  { box-shadow: inset -6px 0 18px rgba(0,0,0,0.18); }
+    #right-panel { box-shadow: inset  6px 0 14px rgba(0,0,0,0.10); }
+    .page-panel canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    /* ══ LOADING ══ */
+    #loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      z-index: 50;
+      background: var(--navy);
+    }
+    #loading p {
+      font-size: 12px;
+      color: var(--sec);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .spinner {
+      width: 38px;
+      height: 38px;
+      border: 2px solid rgba(201,168,76,0.18);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ══ ERROR ══ */
+    #error-msg {
+      display: none;
+      position: absolute;
+      inset: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 40px;
+      text-align: center;
+      background: var(--navy);
+      z-index: 50;
+    }
+    #error-msg h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--gold);
+    }
+    #error-msg p { color: var(--sec); font-size: 13px; line-height: 1.8; max-width: 460px; }
+    #error-msg code {
+      font-size: 11px;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 8px;
+      color: var(--gold);
+      border: 1px solid var(--border);
+    }
+
+    /* ══ CONTROLS BAR ══ */
+    #controls {
+      flex-shrink: 0;
+      height: 48px;
+      background: var(--navy-dk);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 24px;
+    }
+    .ctrl-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-family: 'Lora', serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    .ctrl-btn:hover:not(.disabled) { background: rgba(201,168,76,0.12); color: var(--gold-lt); }
+    .ctrl-btn.disabled { opacity: .25; cursor: default; pointer-events: none; }
+    #page-info {
+      font-size: 11.5px;
+      color: var(--sec);
+      letter-spacing: .06em;
+      min-width: 170px;
+      text-align: center;
+    }
+    .ctrl-sep { width: 1px; height: 22px; background: var(--border2); }
+
+    /* ══ THUMBNAILS ══ */
+    #thumbnails {
+      flex-shrink: 0;
+      height: 84px;
+      background: var(--navy-dk);
+      border-top: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 16px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold-dk) var(--navy-dk);
+    }
+    #thumbnails::-webkit-scrollbar { height: 3px; }
+    #thumbnails::-webkit-scrollbar-thumb { background: var(--gold-dk); border-radius: 2px; }
+    .thumb-wrap {
+      flex-shrink: 0;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color .2s, transform .18s, opacity .2s;
+      position: relative;
+      opacity: .65;
+    }
+    .thumb-wrap:hover { opacity: .9; transform: translateY(-2px); }
+    .thumb-wrap.active { border-color: var(--gold); opacity: 1; }
+    .thumb-wrap canvas {
+      display: block;
+      height: 58px !important;
+      width: auto !important;
+      object-fit: contain;
+    }
+    .thumb-num {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      text-align: center;
+      font-size: 7.5px;
+      color: rgba(255,255,255,0.7);
+      background: rgba(0,0,0,0.45);
+      padding: 1px 0;
+      letter-spacing: .04em;
+    }
+
+    /* ══ FULLSCREEN ADJUSTMENTS ══ */
+    :fullscreen #rv-header { display: none; }
+    :fullscreen #thumbnails { display: none; }
+    :fullscreen .page-panel { width: 45vmin; height: calc(45vmin * 1.414); }
+    :fullscreen .nav-arrow { width: 64px; height: 64px; font-size: 34px; }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 920px) {
+      .page-panel { width: 300px; height: 424px; }
+    }
+    @media (max-width: 680px) {
+      /* Single page on small screens */
+      #right-panel { display: none; }
+      #book::after { display: none; }
+      .page-panel { width: 260px; height: 368px; }
+      .rv-title { display: none; }
+    }
+    @media (max-width: 480px) {
+      .page-panel { width: 200px; height: 283px; }
+      #rv-header { padding: 0 14px; }
+      .ctrl-btn { padding: 5px 10px; font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header id="rv-header">
+  <a href="index.html" class="rv-back">Inicio</a>
+
+  <a href="index.html" class="rv-logo">
+    <img src="Logo_con_fondo_transparente.png"
+         alt="Clave Empresarial"
+         style="height:138px; width:auto;">
+  </a>
+
+  <div class="rv-title">
+    Revista Mayo 2026
+    <span>No. 247 · Edición Digital</span>
+  </div>
+</header>
+
+<!-- ══ VIEWER ══ -->
+<div id="viewer">
+
+  <!-- Zoom flotante -->
+  <div id="zoom-float">
+    <button class="zf-btn" onclick="zoomOut()" title="Reducir zoom">－</button>
+    <span id="zf-label">100%</span>
+    <button class="zf-btn" onclick="zoomIn()"  title="Aumentar zoom">＋</button>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <p>Cargando revista&hellip;</p>
+  </div>
+
+  <!-- Error -->
+  <div id="error-msg">
+    <h3>No se pudo cargar la revista</h3>
+    <p>
+      Verifica que el archivo exista en:<br>
+      <code>output/pdf/revista_mayo26.pdf</code><br><br>
+      Este visor requiere un servidor local (no funciona con <code>file://</code>).<br>
+      Desde la carpeta <code>revista-motor/</code> ejecuta:<br><br>
+      <code>python -m http.server 8080</code><br><br>
+      Luego abre <code>http://localhost:8080/sitio-web/revista.html</code>
+    </p>
+  </div>
+
+  <!-- Flechas laterales -->
+  <button class="nav-arrow disabled" id="btn-prev"
+          onclick="prevSpread()" aria-label="Página anterior">&#8249;</button>
+  <button class="nav-arrow" id="btn-next"
+          onclick="nextSpread()" aria-label="Página siguiente">&#8250;</button>
+
+  <!-- Libro doble página -->
+  <div id="book" style="display:none;">
+    <div class="page-panel" id="left-panel">
+      <canvas id="canvas-left"></canvas>
+    </div>
+    <div class="page-panel" id="right-panel">
+      <canvas id="canvas-right"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ CONTROLES ══ -->
+<div id="controls">
+  <button class="ctrl-btn disabled" id="ctrl-prev"
+          onclick="prevSpread()">&#9664; Anterior</button>
+  <div class="ctrl-sep"></div>
+  <span id="page-info">Cargando&hellip;</span>
+  <div class="ctrl-sep"></div>
+  <button class="ctrl-btn" id="ctrl-next"
+          onclick="nextSpread()">Siguiente &#9654;</button>
+  <div class="ctrl-sep"></div>
+  <button class="ctrl-btn" onclick="zoomOut()" title="Reducir zoom (mín 0.5×)">－</button>
+  <button class="ctrl-btn" onclick="zoomIn()"  title="Aumentar zoom (máx 3×)">＋</button>
+  <div class="ctrl-sep"></div>
+  <button class="ctrl-btn" id="btn-fs"
+          onclick="toggleFullscreen()" title="Pantalla completa — tecla F">
+    &#9633; Pantalla completa
+  </button>
+</div>
+
+<!-- ══ MINIATURAS ══ -->
+<div id="thumbnails"></div>
+
+<!-- ══ CARRUSEL DE EDICIONES ══ -->
+<section id="ediciones">
+  <div class="ediciones-head">Archivo de Ediciones</div>
+  <div class="ediciones-grid">
+
+    <!-- Mayo 2026 — viewer carga output/pdf/revista_mayo26.pdf -->
+    <a href="revista.html" class="edicion-card">
+      <div class="edicion-portada">
+        <img src="portada_mayo26.png" alt="Portada Mayo 2026"
+             onerror="this.src='portada_mayo26.png';this.onerror=null;">
+      </div>
+      <div class="edicion-nombre">Mayo 2026</div>
+      <div class="edicion-leer">Leer edición →</div>
+    </a>
+
+    <!-- Futuras ediciones: duplicar el bloque <a> anterior con la nueva portada y URL -->
+
+  </div>
+</section>
+
+<!-- PDF.js desde CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  // Configurar worker de PDF.js
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  // ── CONFIG ──
+  const BASE_W   = 390;   // ancho base página A4 en px
+  const BASE_H   = 551;   // alto base (ratio 1:√2)
+  const ZOOM_MIN  = 0.5;
+  const ZOOM_MAX  = 3.0;
+  const ZOOM_STEP = 0.2;
+
+  /**
+   * Resuelve qué PDF cargar:
+   *   1. ?pdf=ruta  en la URL → usa esa ruta
+   *   2. Sin parámetro        → lee data/ediciones.json y toma ediciones[0].pdf
+   *   3. Fallback de seguridad → PDF de mayo 2026
+   */
+  async function resolverPdfUrl() {
+    const param = new URLSearchParams(window.location.search).get('pdf');
+    if (param) return param;
+    try {
+      const res = await fetch('data/ediciones.json');
+      if (res.ok) {
+        const eds = await res.json();
+        if (eds && eds.length > 0 && eds[0].pdf) return eds[0].pdf;
+      }
+    } catch (_) {}
+    return '../output/pdf/revista_mayo26.pdf';
+  }
+
+  let pdfDoc        = null;
+  let currentSpread = 0;
+  let totalSpreads  = 0;
+  let isAnimating   = false;
+  let zoomLevel     = 1.0;
+
+  // ── INIT ──
+  async function init() {
+    try {
+      const pdfUrl = await resolverPdfUrl();
+      const task = pdfjsLib.getDocument(pdfUrl);
+      pdfDoc = await task.promise;
+      totalSpreads = Math.ceil(pdfDoc.numPages / 2);
+
+      document.getElementById('loading').style.display  = 'none';
+      document.getElementById('book').style.display     = 'flex';
+
+      // Zoom automático: páginas al 90% del ancho del contenedor
+      applyZoom(calcAutoZoom(), false);
+
+      await renderSpread(0);
+      generateThumbnails(); // corre en background
+    } catch (err) {
+      document.getElementById('loading').style.display   = 'none';
+      document.getElementById('error-msg').style.display = 'flex';
+      console.error('[Revista] Error al cargar PDF:', err.message || err);
+    }
+  }
+
+  // ── RENDERIZAR PÁGINA EN CANVAS ──
+  async function renderPage(pageNum, canvasId) {
+    const canvas = document.getElementById(canvasId);
+    const panel  = canvas.parentElement;
+    const ctx    = canvas.getContext('2d');
+
+    if (!pdfDoc || pageNum < 1 || pageNum > pdfDoc.numPages) {
+      // Página en blanco (último pliego con número impar de páginas)
+      canvas.width  = panel.offsetWidth  || 390;
+      canvas.height = panel.offsetHeight || 551;
+      ctx.fillStyle = '#ede8df';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
+
+    const page    = await pdfDoc.getPage(pageNum);
+    const vp0     = page.getViewport({ scale: 1 });
+    const scaleH  = (panel.offsetHeight || 551) / vp0.height;
+    const scaleW  = (panel.offsetWidth  || 390) / vp0.width;
+    const scale   = Math.min(scaleH, scaleW);
+    const vp      = page.getViewport({ scale });
+
+    canvas.width  = Math.floor(vp.width);
+    canvas.height = Math.floor(vp.height);
+
+    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+  }
+
+  // ── RENDERIZAR PLIEGO (2 páginas) ──
+  async function renderSpread(spreadIndex, animate = false) {
+    if (isAnimating) return;
+
+    const book = document.getElementById('book');
+
+    if (animate) {
+      isAnimating = true;
+      book.classList.add('turning');
+      await delay(200);
+    }
+
+    const leftPage  = spreadIndex * 2 + 1;
+    const rightPage = spreadIndex * 2 + 2;
+
+    await Promise.all([
+      renderPage(leftPage,  'canvas-left'),
+      renderPage(rightPage, 'canvas-right'),
+    ]);
+
+    if (animate) {
+      book.classList.remove('turning');
+      await delay(50);
+      isAnimating = false;
+    }
+
+    updateUI(spreadIndex);
+  }
+
+  // ── ZOOM ──
+  function calcAutoZoom() {
+    const viewer = document.getElementById('viewer');
+    const vw = viewer.clientWidth  || window.innerWidth;
+    const vh = viewer.clientHeight || (window.innerHeight - 68 - 48 - 84);
+    const zW = (vw * 0.90 / 2) / BASE_W;   // 90% del ancho ÷ 2 páginas
+    const zH = (vh * 0.90)     / BASE_H;   // 90% del alto
+    return Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, Math.min(zW, zH)));
+  }
+
+  function applyZoom(level, rerender = true) {
+    zoomLevel = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, level));
+    const w = Math.round(BASE_W * zoomLevel) + 'px';
+    const h = Math.round(BASE_H * zoomLevel) + 'px';
+    document.querySelectorAll('.page-panel').forEach(p => {
+      p.style.width  = w;
+      p.style.height = h;
+    });
+    if (rerender) renderSpread(currentSpread);
+  }
+
+  function zoomIn()  { applyZoom(zoomLevel + ZOOM_STEP); updateZoomLabel(); }
+  function zoomOut() { applyZoom(zoomLevel - ZOOM_STEP); updateZoomLabel(); }
+
+  function updateZoomLabel() {
+    const lbl = document.getElementById('zf-label');
+    if (lbl) lbl.textContent = Math.round(zoomLevel * 100) + '%';
+  }
+
+  // ── NAVEGACIÓN ──
+  async function prevSpread() {
+    if (currentSpread <= 0 || isAnimating) return;
+    currentSpread--;
+    await renderSpread(currentSpread, true);
+  }
+
+  async function nextSpread() {
+    if (currentSpread >= totalSpreads - 1 || isAnimating) return;
+    currentSpread++;
+    await renderSpread(currentSpread, true);
+  }
+
+  // ── ACTUALIZAR UI ──
+  function updateUI(spread) {
+    const left  = spread * 2 + 1;
+    const right = Math.min(spread * 2 + 2, pdfDoc.numPages);
+
+    // Info de página
+    const info = (left === right)
+      ? `Página ${left} de ${pdfDoc.numPages}`
+      : `Páginas ${left} – ${right} de ${pdfDoc.numPages}`;
+    document.getElementById('page-info').textContent = info;
+
+    // Estado botones
+    const isFirst = spread === 0;
+    const isLast  = spread >= totalSpreads - 1;
+    setDisabled('btn-prev',  isFirst);
+    setDisabled('btn-next',  isLast);
+    setDisabled('ctrl-prev', isFirst);
+    setDisabled('ctrl-next', isLast);
+
+    // Highlight miniatura
+    document.querySelectorAll('.thumb-wrap').forEach((el, i) => {
+      const active = i === spread;
+      el.classList.toggle('active', active);
+      if (active) el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+  }
+
+  // ── GENERAR MINIATURAS ──
+  async function generateThumbnails() {
+    const strip = document.getElementById('thumbnails');
+    strip.innerHTML = '';
+
+    for (let i = 0; i < totalSpreads; i++) {
+      const wrap  = document.createElement('div');
+      wrap.className = 'thumb-wrap' + (i === 0 ? ' active' : '');
+
+      const cv    = document.createElement('canvas');
+      const label = document.createElement('div');
+      label.className = 'thumb-num';
+
+      const l = i * 2 + 1;
+      const r = Math.min(i * 2 + 2, pdfDoc.numPages);
+      label.textContent = l === r ? `${l}` : `${l}-${r}`;
+
+      wrap.appendChild(cv);
+      wrap.appendChild(label);
+      strip.appendChild(wrap);
+
+      const idx = i; // capture for click handler
+      wrap.addEventListener('click', () => {
+        currentSpread = idx;
+        renderSpread(idx, true);
+      });
+
+      // Renderizar miniatura (escala pequeña)
+      try {
+        const page = await pdfDoc.getPage(i * 2 + 1);
+        const vp0  = page.getViewport({ scale: 1 });
+        const sc   = 58 / vp0.height;
+        const vp   = page.getViewport({ scale: sc });
+        cv.width   = Math.floor(vp.width);
+        cv.height  = Math.floor(vp.height);
+        await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+      } catch (_) { /* miniatura fallida — continuar */ }
+    }
+  }
+
+  // ── PANTALLA COMPLETA ──
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+      document.getElementById('btn-fs').textContent = '✕ Salir';
+    } else {
+      document.exitFullscreen();
+      document.getElementById('btn-fs').textContent = '⛶ Pantalla completa';
+    }
+  }
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+      document.getElementById('btn-fs').textContent = '⛶ Pantalla completa';
+    }
+  });
+
+  // ── TECLADO ──
+  document.addEventListener('keydown', e => {
+    if (['ArrowLeft',  'PageUp',   'a', 'A'].includes(e.key)) prevSpread();
+    if (['ArrowRight', 'PageDown', 'd', 'D'].includes(e.key)) nextSpread();
+    if (['f', 'F'].includes(e.key)) toggleFullscreen();
+  });
+
+  // ── SWIPE TÁCTIL ──
+  let touchX = null;
+  document.getElementById('viewer').addEventListener('touchstart', e => {
+    touchX = e.touches[0].clientX;
+  }, { passive: true });
+  document.getElementById('viewer').addEventListener('touchend', e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) dx < 0 ? nextSpread() : prevSpread();
+    touchX = null;
+  }, { passive: true });
+
+  // ── HELPERS ──
+  function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+  function setDisabled(id, val) {
+    document.getElementById(id)?.classList.toggle('disabled', val);
+  }
+
+  // ── ARRANQUE ──
+  init();
+</script>
+
+</body>
+</html>

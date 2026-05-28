@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Título y meta tags base — noticia.js los sobreescribirá dinámicamente -->
+  <title>Noticia — Clave Empresarial</title>
+  <meta name="description" content="Clave Empresarial — La Voz del Empresariado Mexicano" />
+
+  <!-- Open Graph base -->
+  <meta property="og:type"        content="article" />
+  <meta property="og:site_name"   content="Clave Empresarial" />
+  <meta property="og:title"       content="Noticia — Clave Empresarial" />
+  <meta property="og:description" content="Clave Empresarial — La Voz del Empresariado Mexicano" />
+  <meta property="og:image"       content="portada_mayo26.png" />
+  <meta property="og:locale"      content="es_MX" />
+
+  <!-- Twitter Card base -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Noticia — Clave Empresarial" />
+  <meta name="twitter:description" content="Clave Empresarial — La Voz del Empresariado Mexicano" />
+  <meta name="twitter:image"       content="portada_mayo26.png" />
+
+  <!-- Tipografías (idénticas al index) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ───── RESET & BASE ───── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:    #0D1B2A;
+      --navy-2:  #112233;
+      --navy-3:  #0A1520;
+      --gold:    #C9A84C;
+      --gold-lt: #E2C06A;
+      --gold-dk: #A8883C;
+      --white:   #FFFFFF;
+      --sec:     #B0B8C1;
+      --border:  rgba(201,168,76,0.22);
+      --border2: rgba(176,184,193,0.14);
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'Lora', Georgia, serif;
+      --header-h: 110px;
+      --nav-h:    44px;
+      --ticker-h: 36px;
+      --break-h:  34px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--gold); }
+    ul { list-style: none; }
+
+    /* ───── SCROLLBAR ───── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--navy-3); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dk); border-radius: 3px; }
+
+    /* ───── UTILITY ───── */
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border: none;
+      cursor: pointer;
+      transition: background .25s, transform .18s;
+      text-decoration: none;
+    }
+    .btn-gold:hover { background: var(--gold-lt); color: var(--navy); transform: translateY(-1px); }
+    .btn-outline {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 9px 22px;
+      cursor: pointer;
+      transition: background .25s, color .25s;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--navy); }
+
+    /* ───── ANIMATIONS ───── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes break-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+
+    /* ══════════════════════════════
+       HEADER (idéntico al index)
+    ══════════════════════════════ */
+    #header {
+      position: relative;
+      background: linear-gradient(135deg, #0a1628 0%, #1a2f4e 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+    #header a.logo-link { display: block; flex-shrink: 0; }
+    .header-cta { flex-shrink: 0; display: flex; align-items: center; gap: 12px; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span { width: 22px; height: 2px; background: var(--sec); display: block; transition: background .2s; }
+    .hamburger:hover span { background: var(--gold); }
+
+    /* ══════════════════════════════
+       NAV BAR
+    ══════════════════════════════ */
+    #nav-bar {
+      position: relative;
+      z-index: 999;
+      height: var(--nav-h);
+      background: var(--navy-3);
+      border-bottom: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      overflow: hidden;
+    }
+    #nav-bar nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      width: 100%;
+    }
+    #nav-bar nav::-webkit-scrollbar { display: none; }
+    #nav-bar nav a {
+      flex-shrink: 0;
+      font-family: var(--ff-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      color: var(--sec);
+      padding: 6px 11px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    #nav-bar nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ══════════════════════════════
+       TICKER FINANCIERO
+    ══════════════════════════════ */
+    #ticker-bar {
+      position: relative;
+      z-index: 998;
+      height: var(--ticker-h);
+      background: #090f18;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    #ticker-bar .tradingview-widget-container { height: 100%; }
+
+    /* ══════════════════════════════
+       BREAKING NEWS BAR
+    ══════════════════════════════ */
+    #breaking-bar {
+      position: relative;
+      z-index: 997;
+      height: var(--break-h);
+      background: var(--navy-2);
+      border-bottom: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .break-label {
+      flex-shrink: 0;
+      background: #1a3a4a;
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 0 14px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-right: 1px solid var(--border);
+    }
+    .break-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse-dot 1.2s ease-in-out infinite;
+    }
+    .break-track-wrap { flex: 1; overflow: hidden; height: 100%; display: flex; align-items: center; }
+    .break-track {
+      display: flex;
+      white-space: nowrap;
+      animation: break-scroll 18s linear infinite;
+    }
+    .break-item {
+      font-family: var(--ff-body);
+      font-size: 12px;
+      color: var(--sec);
+      padding: 0 36px;
+      position: relative;
+    }
+    .break-item::before {
+      content: '◆';
+      color: var(--gold);
+      font-size: 7px;
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    /* ══════════════════════════════
+       OFFSET GENERAL
+    ══════════════════════════════ */
+    #page-body {
+      padding-top: 0;
+    }
+
+    /* ══════════════════════════════
+       LAYOUT DE NOTICIA
+    ══════════════════════════════ */
+    #noticia-contenido {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 52px 28px 72px;
+      animation: fadeUp .65s ease both;
+    }
+
+    /* Enlace volver */
+    .noticia-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--ff-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--sec);
+      margin-bottom: 36px;
+      opacity: .7;
+      transition: opacity .2s, color .2s;
+    }
+    .noticia-back:hover { opacity: 1; color: var(--gold); }
+    .noticia-back::before { content: '←'; font-size: 14px; }
+
+    /* Imagen destacada */
+    .noticia-hero-img {
+      width: 100%;
+      height: 460px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, #142030 0%, #0c1824 100%);
+    }
+    .noticia-hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Categoría */
+    .noticia-categoria {
+      display: inline-block;
+      font-family: var(--ff-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      margin-bottom: 20px;
+    }
+
+    /* Título */
+    .noticia-titulo {
+      font-family: var(--ff-head);
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.22;
+      color: var(--white);
+      margin-bottom: 20px;
+      max-width: 800px;
+    }
+
+    /* Meta (fecha + fuente) */
+    .noticia-meta-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--ff-body);
+      font-size: 12px;
+      color: var(--sec);
+      margin-bottom: 32px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border2);
+    }
+    .noticia-meta-bar .meta-dot { color: var(--border); }
+    .noticia-meta-bar .meta-fuente { color: var(--gold); font-weight: 600; }
+
+    /* Línea decorativa dorada */
+    .noticia-divider {
+      width: 44px;
+      height: 3px;
+      background: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    /* Resumen / cuerpo */
+    .noticia-resumen-texto {
+      font-family: var(--ff-body);
+      font-size: 17px;
+      line-height: 1.6;
+      color: #d0d8e1;
+      margin-bottom: 40px;
+      font-style: italic;
+      border-left: 3px solid var(--gold);
+      padding-left: 24px;
+      max-width: 700px;
+      /* Sin overflow:hidden ni -webkit-line-clamp: muestra el resumen completo */
+    }
+
+    /* Acciones */
+    .noticia-acciones {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-top: 32px;
+      border-top: 1px solid var(--border2);
+    }
+
+    /* Bloque "Ver fuente original" */
+    .noticia-fuente-credito {
+      margin-bottom: 40px;
+      padding: 20px 22px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border2);
+      border-left: 3px solid rgba(201,168,76,0.4);
+    }
+    .noticia-fuente-credito p {
+      font-size: 12px;
+      color: var(--sec);
+      line-height: 1.6;
+      opacity: .75;
+    }
+    .noticia-fuente-credito strong { color: var(--gold); font-weight: 600; }
+
+    /* ══════════════════════════════
+       FOOTER (idéntico al index)
+    ══════════════════════════════ */
+    #footer { background: var(--navy-3); border-top: 1px solid var(--border); padding: 52px 28px 28px; }
+    .footer-top {
+      max-width: 1340px; margin: 0 auto;
+      display: grid; grid-template-columns: 220px 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 36px; border-bottom: 1px solid var(--border2);
+    }
+    .footer-brand .logo-line1 { font-family: var(--ff-head); font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 4px; display: block; }
+    .footer-brand .logo-line1 .a-gold { color: var(--gold); }
+    .footer-brand .logo-line2 { font-family: var(--ff-body); font-size: 8.5px; font-weight: 400; letter-spacing: .22em; text-transform: uppercase; color: var(--sec); display: block; margin-bottom: 14px; }
+    .footer-brand p { font-size: 12.5px; color: var(--sec); line-height: 1.65; }
+    .footer-col h4 { font-family: var(--ff-head); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .footer-col ul { display: flex; flex-direction: column; gap: 8px; }
+    .footer-col ul a { font-size: 12.5px; color: var(--sec); transition: color .2s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-contact p { font-size: 12.5px; color: var(--sec); line-height: 1.8; }
+    .footer-contact a { color: var(--gold); }
+    .footer-bottom { max-width: 1340px; margin: 0 auto; padding-top: 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .footer-bottom p { font-size: 11.5px; color: var(--sec); opacity: .55; }
+    .footer-legal { display: flex; gap: 18px; }
+    .footer-legal a { font-size: 11.5px; color: var(--sec); opacity: .55; transition: color .2s, opacity .2s; }
+    .footer-legal a:hover { color: var(--gold); opacity: 1; }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 768px) {
+      :root { --header-h: 72px; --nav-h: 0px; }
+      #header { padding: 0 18px; }
+      #nav-bar { display: none; height: auto; max-height: 0; }
+      #nav-bar.open {
+        display: flex; max-height: 400px;
+        flex-direction: column; align-items: flex-start;
+        z-index: 9999; top: var(--header-h);
+        padding: 4px 18px 12px;
+      }
+      #nav-bar.open nav { flex-direction: column; align-items: flex-start; }
+      #nav-bar.open nav a { padding: 10px 0; border-bottom: 1px solid var(--border2); width: 100%; }
+      .hamburger { display: flex; }
+      .noticia-titulo { font-size: 24px; }
+      .noticia-hero-img { height: 240px; }
+      .noticia-resumen-texto { font-size: 15px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      #noticia-contenido { padding: 36px 18px 56px; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header id="header">
+  <a href="index.html" class="logo-link">
+    <img src="Logo_con_fondo_transparente.png" alt="Clave Empresarial" style="height:135px; width:auto;">
+  </a>
+  <div class="header-cta">
+    <a href="index.html#newsletter" class="btn-gold">Suscribirse</a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ══ NAV BAR ══ -->
+<div id="nav-bar">
+  <nav>
+    <a href="index.html#empresarial">Empresarial</a>
+    <a href="index.html#economia">Economía</a>
+    <a href="index.html#tecnologia">Tecnología</a>
+    <a href="index.html#movilidad">Movilidad</a>
+    <a href="index.html#realestate">Real Estate</a>
+    <a href="index.html#turismo">Turismo</a>
+    <a href="index.html#lideres">Líderes</a>
+    <a href="index.html#cupulas">Cúpulas</a>
+    <a href="index.html#salud">Salud y Cultura</a>
+    <a href="revista.html">Revista Digital</a>
+  </nav>
+</div>
+
+<!-- ══ TICKER FINANCIERO ══ -->
+<div id="ticker-bar">
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+      "symbols": [
+        { "proName": "FX:USDMXN",       "title": "USD/MXN" },
+        { "proName": "FX:EURMXN",        "title": "EUR/MXN" },
+        { "proName": "BMEX:IPC",         "title": "IPC BMV" },
+        { "proName": "COINBASE:BTCUSD",  "title": "Bitcoin" },
+        { "proName": "TVC:GOLD",         "title": "Oro" },
+        { "proName": "NYMEX:CL1!",       "title": "Petróleo" }
+      ],
+      "showSymbolLogo": false,
+      "colorTheme": "dark",
+      "isTransparent": true,
+      "displayMode": "adaptive",
+      "locale": "es"
+    }
+    </script>
+  </div>
+</div>
+
+<!-- ══ BREAKING NEWS BAR ══ -->
+<div id="breaking-bar">
+  <div class="break-label">
+    <div class="break-dot"></div>
+    En vivo
+  </div>
+  <div class="break-track-wrap">
+    <div class="break-track">
+      <span class="break-item">Banxico mantiene tasa en 9.5%; analistas esperan primer recorte en julio</span>
+      <span class="break-item">AMEXCAP reporta captación récord de inversión privada en Q1 2026</span>
+      <span class="break-item">Grupo Bimbo anuncia expansión en Asia Pacífico con inversión de 1,200 MDP</span>
+      <span class="break-item">México escala a lugar 28 en Índice Global de Competitividad</span>
+      <!-- Duplicado para loop continuo -->
+      <span class="break-item">Banxico mantiene tasa en 9.5%; analistas esperan primer recorte en julio</span>
+      <span class="break-item">AMEXCAP reporta captación récord de inversión privada en Q1 2026</span>
+      <span class="break-item">Grupo Bimbo anuncia expansión en Asia Pacífico con inversión de 1,200 MDP</span>
+      <span class="break-item">México escala a lugar 28 en Índice Global de Competitividad</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CUERPO ══ -->
+<div id="page-body">
+
+  <!-- Contenido de la noticia — noticia.js lo rellena dinámicamente -->
+  <div id="noticia-contenido">
+
+    <!-- Enlace volver -->
+    <a href="index.html" class="noticia-back" id="noticia-btn-back">Volver a portada</a>
+
+    <!-- Imagen destacada -->
+    <div class="noticia-hero-img">
+      <img id="noticia-imagen" src="portada_mayo26.png" alt="Cargando…">
+    </div>
+
+    <!-- Categoría -->
+    <span class="noticia-categoria" id="noticia-seccion">Cargando…</span>
+
+    <!-- Título -->
+    <h1 class="noticia-titulo" id="noticia-titulo">Cargando noticia…</h1>
+
+    <!-- Meta: fecha + fuente -->
+    <div class="noticia-meta-bar">
+      <span id="noticia-fecha">—</span>
+      <span class="meta-dot">·</span>
+      <span class="meta-fuente" id="noticia-fuente">—</span>
+    </div>
+
+    <!-- Línea dorada -->
+    <div class="noticia-divider"></div>
+
+    <!-- Resumen (cuerpo editorial) -->
+    <p class="noticia-resumen-texto" id="noticia-resumen">
+      Cargando contenido…
+    </p>
+
+    <!-- Crédito de fuente -->
+    <div class="noticia-fuente-credito">
+      <p>
+        Este contenido fue generado a partir de información publicada por
+        <strong id="noticia-fuente-credito-nombre">la fuente original</strong>.
+        Clave Empresarial resume y clasifica las noticias más relevantes para el empresariado mexicano.
+      </p>
+    </div>
+
+    <!-- Acciones -->
+    <div class="noticia-acciones">
+      <a
+        id="noticia-btn-original"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-gold"
+        style="display:none; align-items:center; gap:8px;"
+      >
+        Ver noticia original ↗
+      </a>
+      <a href="index.html" class="btn-outline">← Volver al inicio</a>
+    </div>
+
+  </div><!-- /#noticia-contenido -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-line1">Cl<span class="a-gold">A</span>ve Empresarial</span>
+        <span class="logo-line2">La Voz del Empresariado Mexicano</span>
+        <p>La revista de referencia para directivos, emprendedores y líderes de opinión del sector empresarial en México desde 1998.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Secciones</h4>
+        <ul>
+          <li><a href="index.html#empresarial">Empresarial</a></li>
+          <li><a href="index.html#economia">Economía</a></li>
+          <li><a href="index.html#tecnologia">Tecnología</a></li>
+          <li><a href="index.html#movilidad">Movilidad</a></li>
+          <li><a href="index.html#realestate">Real Estate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>La Revista</h4>
+        <ul>
+          <li><a href="revista.html">Revista Digital</a></li>
+          <li><a href="index.html#newsletter">Newsletter</a></li>
+          <li><a href="#">Archivo de Ediciones</a></li>
+          <li><a href="#">Suscripción Impresa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Contacto</h4>
+        <p>
+          Redacción<br>
+          <a href="mailto:contacto@claveempresarial.mx">contacto@claveempresarial.mx</a><br><br>
+          Publicidad<br>
+          <a href="mailto:publicidad@claveempresarial.mx">publicidad@claveempresarial.mx</a><br><br>
+          Ciudad de México, México
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Clave Empresarial. Todos los derechos reservados.</p>
+      <div class="footer-legal">
+        <a href="#">Aviso de Privacidad</a>
+        <a href="#">Términos de Uso</a>
+        <a href="#">Política Editorial</a>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /#page-body -->
+
+<script>
+  /* ── Hamburger ── */
+  const ham = document.getElementById('hamburger');
+  const navBar = document.getElementById('nav-bar');
+  if (ham) ham.addEventListener('click', () => navBar.classList.toggle('open'));
+
+  /* ── Header shadow on scroll ── */
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.style.boxShadow = window.scrollY > 10 ? '0 2px 24px rgba(0,0,0,.5)' : 'none';
+  }, { passive: true });
+
+  /* ── Sincronizar nombre de fuente en el crédito ── */
+  // noticia.js rellena noticia-fuente; aquí lo copiamos al bloque de crédito
+  const observarFuente = new MutationObserver(() => {
+    const fuente = document.getElementById('noticia-fuente');
+    const credito = document.getElementById('noticia-fuente-credito-nombre');
+    if (fuente && credito && fuente.textContent.trim() && fuente.textContent !== '—') {
+      credito.textContent = fuente.textContent.trim();
+    }
+  });
+  const fuenteEl = document.getElementById('noticia-fuente');
+  if (fuenteEl) observarFuente.observe(fuenteEl, { childList: true, characterData: true, subtree: true });
+</script>
+
+<!-- noticia.js: lee ?id= y rellena la página -->
+<script src="js/noticia.js"></script>
+
+</body>
+</html>
