@@ -2,7 +2,7 @@
   {
     "nombre": "Mayo 2026",
     "portada": "assets/revista/portada_mayo26.png",
-    "pdf": "output/pdf/revista_mayo26.pdf",
-    "flipbook": "revista.html?pdf=output/pdf/revista_mayo26.pdf"
+    "pdf": "https://pub-0bef4886ea67490f880abbe6fa63a0fb.r2.dev/revista_mayo26.pdf",
+    "flipbook": "revista.html?pdf=https://pub-0bef4886ea67490f880abbe6fa63a0fb.r2.dev/revista_mayo26.pdf"
   }
 ]
