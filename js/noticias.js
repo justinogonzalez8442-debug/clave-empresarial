@@ -174,7 +174,13 @@
 
     /* Responsive */
     @media (max-width:1024px) { .nc-grid { grid-template-columns:repeat(2,1fr); } }
-    @media (max-width:580px)  { .nc-grid { grid-template-columns:1fr; } .nc-card-img { height:200px; } .edi-card { width:120px; } }
+    @media (max-width:768px)  {
+      .nc-grid { grid-template-columns:1fr; }
+      .nc-card-img { height:200px; }
+      .edi-card { width:120px; }
+      /* Asegurar padding en tarjetas noticias del día */
+      .nc-card-body { padding:14px 12px 12px; }
+    }
   `;
 
   /* Inyectar estilos una sola vez */

@@ -534,33 +534,98 @@
     }
 
     @media (max-width: 768px) {
-      :root {
-        --header-h: 72px;
-        --nav-h: 0px; /* nav se oculta en mobile */
-      }
-      #header { padding: 0 18px; }
-      #nav-bar { display: none; overflow: visible; height: auto; max-height: 0; transition: max-height .3s ease; }
+      /* ── 1. HEADER: logo pequeño, ocultar botón SUSCRIBIRSE ── */
+      :root { --header-h: 60px; --nav-h: 0px; }
+      #header { padding: 0 16px; min-height: 60px; }
+      #header img { height: 52px !important; width: auto !important; }
+      .header-cta { right: 16px; }
+      .header-cta .btn-gold { display: none; } /* se mueve al menú hamburguesa */
+      .hamburger { display: flex; }
+
+      /* ── 2. MENÚ HAMBURGUESA ── */
+      #nav-bar { display: none; }
       #nav-bar.open {
         display: flex;
-        max-height: 400px;
-        height: auto;
         flex-direction: column;
         align-items: flex-start;
+        background: var(--navy-3);
+        border-bottom: 1px solid var(--border2);
+        padding: 8px 16px 16px;
         z-index: 9999;
-        top: var(--header-h);
-        padding: 4px 18px 12px;
+        width: 100%;
       }
-      #nav-bar.open nav { flex-direction: column; align-items: flex-start; gap: 0; }
-      #nav-bar.open nav a { padding: 10px 0; border-bottom: 1px solid var(--border2); width: 100%; border-right: none; }
-      .hamburger { display: flex; }
-      .hero-img { height: 300px; }
-      .hero-overlay h1 { font-size: 22px; }
-      .section-grid { grid-template-columns: 1fr; }
+      #nav-bar.open nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        width: 100%;
+      }
+      #nav-bar.open nav a {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border2);
+        border-right: none;
+        width: 100%;
+        font-size: 14px;
+      }
+      #nav-bar.open nav a:last-child { border-bottom: none; }
+      /* Botón Suscribirse en menú mobile */
+      .nav-suscribirse {
+        display: none;
+        margin-top: 14px;
+        width: 100%;
+        text-align: center;
+        background: var(--gold);
+        color: var(--navy) !important;
+        font-family: var(--ff-body);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        padding: 10px 0;
+        border-bottom: none !important;
+      }
+      #nav-bar.open .nav-suscribirse { display: block; }
+
+      /* ── 3. GRID: override inline style de noticias.js ── */
+      .section-grid,
+      [data-seccion] { grid-template-columns: 1fr !important; }
+      /* Section-side como display:contents → artículos directos en el grid */
+      .section-side { display: contents; }
+
+      /* ── 4. PADDING MÍNIMO EN TODO EL CONTENIDO ── */
+      #hero { padding: 20px 16px 16px; }
+      #content-area { padding: 0 16px 32px; gap: 24px; }
+      .section-head { padding-bottom: 10px; }
+      .hero-overlay { padding: 20px 16px 16px; }
+      #footer { padding: 36px 16px 20px; }
+      #newsletter { padding: 40px 16px; }
+
+      /* ── 5. HERO ── */
+      .hero-img { height: 280px; }
+      .hero-overlay h1 { font-size: 20px; }
       .hero-secondary { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr; }
+      .story-sm { grid-template-columns: 88px 1fr; }
+      .story-sm-img { width: 88px; height: 64px; }
+
+      /* ── 6. SIDEBAR: abajo del contenido ── */
+      #sidebar {
+        border-left: none;
+        border-top: 1px solid var(--border2);
+        padding-left: 0;
+        padding-top: 28px;
+      }
+
+      /* ── FOOTER ── */
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
       .footer-bottom { flex-direction: column; text-align: center; }
+      .footer-legal { flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+      /* ── NEWSLETTER ── */
       .nl-form { flex-direction: column; }
       .nl-input { border-right: 1px solid var(--border); border-bottom: none; }
+
+      /* ── CELDAS VACÍAS: section-side sin hijos visibles ── */
+      .section-grid .section-side:not(:has(article)) { display: none; }
     }
   </style>
 </head>
@@ -601,6 +666,8 @@
     <a href="#salud">Salud y Cultura</a>
     <a href="revista.html">Revista Digital</a>
   </nav>
+  <!-- Solo visible en mobile dentro del menú hamburguesa -->
+  <a href="#newsletter" class="nav-suscribirse">Suscribirse</a>
 </div>
 
 <!-- ══════════════════════════════
