@@ -444,7 +444,11 @@
 
   /* ── FETCH Y DISTRIBUCIÓN ────────────────────────────────── */
 
+  let _cargando = false;
+
   async function cargarNoticias() {
+    if (_cargando) return;
+    _cargando = true;
     const gridDia = document.querySelector('[data-noticias-grid]');
 
     /* Spinner en Noticias del Día solo si está vacío (primera carga) */
@@ -509,6 +513,8 @@
             No se pudieron cargar las noticias.<br>Intenta de nuevo más tarde.
           </div>`;
       }
+    } finally {
+      _cargando = false;
     }
   }
 
