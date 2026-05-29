@@ -30,38 +30,47 @@
       user-select: none;
     }
 
-    /* ══ ZOOM FLOTANTE ══ */
-    #zoom-float {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      z-index: 30;
+    /* ══ CONTROLES FLOTANTES (esquina inferior derecha) ══ */
+    #ctrl-float {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 100;
       display: flex;
-      gap: 4px;
       align-items: center;
-    }
-    .zf-btn {
-      width: 34px;
-      height: 34px;
-      background: rgba(10,21,32,.75);
+      gap: 4px;
+      background: rgba(10,21,32,.88);
       border: 1px solid var(--border);
-      color: var(--gold);
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: background .2s;
-      backdrop-filter: blur(6px);
+      border-radius: 6px;
+      padding: 6px 8px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0,0,0,.5);
     }
-    .zf-btn:hover { background: rgba(201,168,76,.18); }
-    #zf-label {
-      font-family: var(--ff-body);
+    .cf-btn {
+      height: 30px;
+      padding: 0 10px;
+      background: none;
+      border: 1px solid transparent;
+      color: var(--gold);
+      font-family: 'Lora', serif;
       font-size: 10px;
-      color: rgba(201,168,76,.7);
-      letter-spacing: .06em;
-      min-width: 38px;
-      text-align: center;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s, border-color .15s;
+      border-radius: 3px;
+    }
+    .cf-btn:hover:not(.disabled) { background: rgba(201,168,76,.15); border-color: var(--border); }
+    .cf-btn.disabled { opacity: .25; cursor: default; pointer-events: none; }
+    .cf-sep { width: 1px; height: 20px; background: var(--border2); flex-shrink: 0; }
+    #cf-info {
+      font-size: 10px;
+      color: var(--sec);
+      letter-spacing: .04em;
+      white-space: nowrap;
+      padding: 0 4px;
     }
 
     /* ══ CARRUSEL DE EDICIONES ══ */
@@ -130,56 +139,37 @@
     /* ══ HEADER ══ */
     #rv-header {
       flex-shrink: 0;
-      height: auto;
-      padding: 12px 28px;
+      height: 40px;
+      padding: 0 12px;
       background: linear-gradient(135deg, #0a1628 0%, #1a2f4e 100%);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 8px;
     }
     .rv-back {
       display: flex;
       align-items: center;
-      gap: 6px;
       color: var(--sec);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 500;
-      letter-spacing: .1em;
+      letter-spacing: .08em;
       text-decoration: none;
       text-transform: uppercase;
       border: 1px solid var(--border2);
-      padding: 7px 16px;
+      padding: 4px 10px;
       transition: color .2s, border-color .2s;
       white-space: nowrap;
+      border-radius: 3px;
     }
     .rv-back:hover { color: var(--gold); border-color: var(--border); }
-    .rv-back::before { content: '←'; margin-right: 2px; }
+    .rv-back::before { content: '←'; margin-right: 4px; }
     .rv-logo { display: flex; align-items: center; }
-    .rv-title {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      color: var(--gold);
-      text-transform: uppercase;
-      white-space: nowrap;
-      text-align: right;
-    }
-    .rv-title span {
-      display: block;
-      font-family: 'Lora', serif;
-      font-size: 10px;
-      font-weight: 400;
-      color: var(--sec);
-      letter-spacing: .1em;
-      margin-top: 2px;
-    }
 
     /* ══ VIEWER ══ */
     #viewer {
-      height: calc(100vh - 162px - 48px - 84px);
+      height: calc(100vh - 40px - 84px);
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -321,42 +311,7 @@
       border: 1px solid var(--border);
     }
 
-    /* ══ CONTROLS BAR ══ */
-    #controls {
-      flex-shrink: 0;
-      height: 48px;
-      background: var(--navy-dk);
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 0 24px;
-    }
-    .ctrl-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--gold);
-      font-family: 'Lora', serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      padding: 6px 16px;
-      cursor: pointer;
-      transition: background .2s, color .2s;
-      white-space: nowrap;
-    }
-    .ctrl-btn:hover:not(.disabled) { background: rgba(201,168,76,0.12); color: var(--gold-lt); }
-    .ctrl-btn.disabled { opacity: .25; cursor: default; pointer-events: none; }
-    #page-info {
-      font-size: 11.5px;
-      color: var(--sec);
-      letter-spacing: .06em;
-      min-width: 170px;
-      text-align: center;
-    }
-    .ctrl-sep { width: 1px; height: 22px; background: var(--border2); }
+    /* ══ CONTROLS BAR — eliminado, ahora flotante ══ */
 
     /* ══ THUMBNAILS ══ */
     #thumbnails {
@@ -402,10 +357,11 @@
     }
 
     /* ══ FULLSCREEN ADJUSTMENTS ══ */
-    :fullscreen #rv-header { display: none; }
-    :fullscreen #thumbnails { display: none; }
-    :fullscreen .page-panel { width: 45vmin; height: calc(45vmin * 1.414); }
-    :fullscreen .nav-arrow { width: 64px; height: 64px; font-size: 34px; }
+    :fullscreen #rv-header   { display: none; }
+    :fullscreen #thumbnails  { display: none; }
+    :fullscreen #ctrl-float  { bottom: 12px; right: 12px; }
+    :fullscreen .page-panel  { width: 45vmin; height: calc(45vmin * 1.414); }
+    :fullscreen .nav-arrow   { width: 64px; height: 64px; font-size: 34px; }
 
     /* ══ RESPONSIVE ══ */
     @media (max-width: 920px) {
@@ -430,28 +386,15 @@
 <!-- ══ HEADER ══ -->
 <header id="rv-header">
   <a href="index.html" class="rv-back">Inicio</a>
-
   <a href="index.html" class="rv-logo">
     <img src="Logo_con_fondo_transparente.png"
          alt="Clave Empresarial"
-         style="height:138px; width:auto;">
+         style="height:30px; width:auto;">
   </a>
-
-  <div class="rv-title">
-    Revista Mayo 2026
-    <span>No. 247 · Edición Digital</span>
-  </div>
 </header>
 
 <!-- ══ VIEWER ══ -->
 <div id="viewer">
-
-  <!-- Zoom flotante -->
-  <div id="zoom-float">
-    <button class="zf-btn" onclick="zoomOut()" title="Reducir zoom">－</button>
-    <span id="zf-label">100%</span>
-    <button class="zf-btn" onclick="zoomIn()"  title="Aumentar zoom">＋</button>
-  </div>
 
   <!-- Loading -->
   <div id="loading">
@@ -488,23 +431,18 @@
 
 </div>
 
-<!-- ══ CONTROLES ══ -->
-<div id="controls">
-  <button class="ctrl-btn disabled" id="ctrl-prev"
-          onclick="prevSpread()">&#9664; Anterior</button>
-  <div class="ctrl-sep"></div>
-  <span id="page-info">Cargando&hellip;</span>
-  <div class="ctrl-sep"></div>
-  <button class="ctrl-btn" id="ctrl-next"
-          onclick="nextSpread()">Siguiente &#9654;</button>
-  <div class="ctrl-sep"></div>
-  <button class="ctrl-btn" onclick="zoomOut()" title="Reducir zoom (mín 0.5×)">－</button>
-  <button class="ctrl-btn" onclick="zoomIn()"  title="Aumentar zoom (máx 3×)">＋</button>
-  <div class="ctrl-sep"></div>
-  <button class="ctrl-btn" id="btn-fs"
-          onclick="toggleFullscreen()" title="Pantalla completa — tecla F">
-    &#9633; Pantalla completa
-  </button>
+<!-- ══ CONTROLES FLOTANTES ══ -->
+<div id="ctrl-float">
+  <button class="cf-btn disabled" id="ctrl-prev" onclick="prevSpread()">&#9664; Ant</button>
+  <div class="cf-sep"></div>
+  <span id="cf-info">—</span>
+  <div class="cf-sep"></div>
+  <button class="cf-btn" id="ctrl-next" onclick="nextSpread()">Sig &#9654;</button>
+  <div class="cf-sep"></div>
+  <button class="cf-btn" onclick="zoomOut()" title="Zoom −">－</button>
+  <button class="cf-btn" onclick="zoomIn()"  title="Zoom +">＋</button>
+  <div class="cf-sep"></div>
+  <button class="cf-btn" id="btn-fs" onclick="toggleFullscreen()">&#9633;</button>
 </div>
 
 <!-- ══ MINIATURAS ══ -->
@@ -653,7 +591,7 @@
   function calcAutoZoom() {
     const viewer = document.getElementById('viewer');
     const vw = viewer.clientWidth  || window.innerWidth;
-    const vh = viewer.clientHeight || (window.innerHeight - 68 - 48 - 84);
+    const vh = viewer.clientHeight || (window.innerHeight - 40 - 84);
     const zW = (vw * 0.90 / 2) / BASE_W;   // 90% del ancho ÷ 2 páginas
     const zH = (vh * 0.90)     / BASE_H;   // 90% del alto
     return Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, Math.min(zW, zH)));
@@ -673,10 +611,7 @@
   function zoomIn()  { applyZoom(zoomLevel + ZOOM_STEP); updateZoomLabel(); }
   function zoomOut() { applyZoom(zoomLevel - ZOOM_STEP); updateZoomLabel(); }
 
-  function updateZoomLabel() {
-    const lbl = document.getElementById('zf-label');
-    if (lbl) lbl.textContent = Math.round(zoomLevel * 100) + '%';
-  }
+  function updateZoomLabel() { /* zoom label removed */ }
 
   // ── NAVEGACIÓN ──
   async function prevSpread() {
@@ -698,9 +633,9 @@
 
     // Info de página
     const info = (left === right)
-      ? `Página ${left} de ${pdfDoc.numPages}`
-      : `Páginas ${left} – ${right} de ${pdfDoc.numPages}`;
-    document.getElementById('page-info').textContent = info;
+      ? `${left}/${pdfDoc.numPages}`
+      : `${left}-${right}/${pdfDoc.numPages}`;
+    document.getElementById('cf-info').textContent = info;
 
     // Estado botones
     const isFirst = spread === 0;
