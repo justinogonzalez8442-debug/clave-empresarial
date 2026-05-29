@@ -464,11 +464,9 @@
     <h3>No se pudo cargar la revista</h3>
     <p>
       Verifica que el archivo exista en:<br>
-      <code>output/pdf/revista_mayo26.pdf</code><br><br>
-      Este visor requiere un servidor local (no funciona con <code>file://</code>).<br>
-      Desde la carpeta <code>revista-motor/</code> ejecuta:<br><br>
-      <code>python -m http.server 8080</code><br><br>
-      Luego abre <code>http://localhost:8080/sitio-web/revista.html</code>
+      <code>https://pub-0bef4886ea67490f880abbe6fa63a0fb.r2.dev/revista_mayo26.pdf</code><br><br>
+      Verifica que el PDF esté publicado en Cloudflare R2 y que el bucket sea público.<br>
+      El sitio se accede en: <code>TU-DOMINIO/revista.html</code>
     </p>
   </div>
 
@@ -517,7 +515,7 @@
   <div class="ediciones-head">Archivo de Ediciones</div>
   <div class="ediciones-grid">
 
-    <!-- Mayo 2026 — viewer carga output/pdf/revista_mayo26.pdf -->
+    <!-- Mayo 2026 — viewer carga desde Cloudflare R2 -->
     <a href="revista.html" class="edicion-card">
       <div class="edicion-portada">
         <img src="portada_mayo26.png" alt="Portada Mayo 2026"
