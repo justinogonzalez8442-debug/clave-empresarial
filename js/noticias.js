@@ -470,8 +470,13 @@
         String(n.Activa || '').trim().toUpperCase() === 'TRUE'
       );
 
-      /* 2. Ordenar por Prioridad descendente */
-      activas.sort((a, b) => (parseFloat(b.Prioridad) || 0) - (parseFloat(a.Prioridad) || 0));
+      /* 2. Ordenar por Fecha descendente; Prioridad como desempate */
+      activas.sort((a, b) => {
+        const fa = a.Fecha ? new Date(a.Fecha.includes('T') ? a.Fecha : a.Fecha + 'T12:00:00').getTime() : 0;
+        const fb = b.Fecha ? new Date(b.Fecha.includes('T') ? b.Fecha : b.Fecha + 'T12:00:00').getTime() : 0;
+        if (fb !== fa) return fb - fa;
+        return (parseFloat(b.Prioridad) || 0) - (parseFloat(a.Prioridad) || 0);
+      });
 
       /* 3. Hero: noticia de mayor prioridad global */
       const hero = activas[0] || null;
