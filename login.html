@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso – Clave Empresarial</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #0d1b2a;
+      color: #e8dcc8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: #14263d;
+      border: 1px solid #2a3f5c;
+      border-radius: 8px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo img {
+      height: 48px;
+      width: auto;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: normal;
+      color: #c9a84c;
+      text-align: center;
+      margin-bottom: 28px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8fa8c4;
+      margin-bottom: 8px;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 11px 14px;
+      background: #0d1b2a;
+      border: 1px solid #2a3f5c;
+      border-radius: 4px;
+      color: #e8dcc8;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="email"]:focus {
+      border-color: #c9a84c;
+    }
+
+    button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 12px;
+      background: #c9a84c;
+      color: #0d1b2a;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button:hover { opacity: 0.88; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #mensaje {
+      margin-top: 20px;
+      font-size: 0.88rem;
+      text-align: center;
+      color: #8fa8c4;
+      min-height: 1.4em;
+    }
+
+    #mensaje.error { color: #e07070; }
+    #mensaje.ok    { color: #6fc98a; }
+
+    /* Vista sesión activa */
+    #vista-sesion {
+      display: none;
+      text-align: center;
+    }
+
+    #vista-sesion p {
+      font-size: 0.92rem;
+      color: #8fa8c4;
+      margin-bottom: 6px;
+    }
+
+    #vista-sesion strong {
+      color: #c9a84c;
+      word-break: break-all;
+    }
+
+    #btn-logout {
+      margin-top: 20px;
+      background: transparent;
+      border: 1px solid #2a3f5c;
+      color: #8fa8c4;
+    }
+
+    #btn-logout:hover { border-color: #c9a84c; color: #c9a84c; opacity: 1; }
+
+    .back {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    .back a {
+      color: #8fa8c4;
+      text-decoration: none;
+    }
+
+    .back a:hover { color: #c9a84c; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">
+    <img src="assets/logo-clave.png" alt="Clave Empresarial"
+         onerror="this.style.display='none'">
+  </div>
+
+  <!-- Formulario de login -->
+  <div id="vista-login">
+    <h1>Acceso a suscriptores</h1>
+    <label for="correo">Correo electrónico</label>
+    <input type="email" id="correo" placeholder="tu@correo.com" autocomplete="email">
+    <button id="btn-enviar">Enviar enlace de acceso</button>
+    <div id="mensaje"></div>
+  </div>
+
+  <!-- Vista cuando la sesión está activa -->
+  <div id="vista-sesion">
+    <h1>Sesión activa</h1>
+    <p>Sesión iniciada como</p>
+    <strong id="correo-sesion"></strong>
+    <button id="btn-logout">Cerrar sesión</button>
+  </div>
+
+  <div class="back"><a href="index.html">← Volver al inicio</a></div>
+</div>
+
+<script type="module">
+  import { supabase } from './js/supabase-config.js';
+
+  const vLogin   = document.getElementById('vista-login');
+  const vSesion  = document.getElementById('vista-sesion');
+  const correoEl = document.getElementById('correo');
+  const btnEnviar= document.getElementById('btn-enviar');
+  const btnLogout= document.getElementById('btn-logout');
+  const msgEl    = document.getElementById('mensaje');
+  const emailEl  = document.getElementById('correo-sesion');
+
+  function mostrarMensaje(texto, tipo = '') {
+    msgEl.textContent = texto;
+    msgEl.className = tipo;
+  }
+
+  function mostrarSesion(email) {
+    vLogin.style.display  = 'none';
+    vSesion.style.display = 'block';
+    emailEl.textContent   = email;
+  }
+
+  // Detectar sesión activa (incluyendo el regreso del magic link)
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session?.user?.email) {
+    mostrarSesion(session.user.email);
+  }
+
+  // Escuchar cambios de auth (el usuario vuelve del enlace en esta misma pestaña)
+  supabase.auth.onAuthStateChange((_event, session) => {
+    if (session?.user?.email) {
+      mostrarSesion(session.user.email);
+    }
+  });
+
+  // Enviar magic link
+  btnEnviar.addEventListener('click', async () => {
+    const email = correoEl.value.trim();
+    if (!email) {
+      mostrarMensaje('Ingresa tu correo electrónico.', 'error');
+      return;
+    }
+
+    btnEnviar.disabled = true;
+    mostrarMensaje('Enviando…');
+
+    const redirectTo = window.location.href.split('?')[0].split('#')[0];
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: redirectTo }
+    });
+
+    btnEnviar.disabled = false;
+
+    if (error) {
+      mostrarMensaje('Error: ' + error.message, 'error');
+    } else {
+      mostrarMensaje('Revisa tu correo — te enviamos un enlace de acceso.', 'ok');
+      correoEl.value = '';
+    }
+  });
+
+  // Cerrar sesión
+  btnLogout.addEventListener('click', async () => {
+    await supabase.auth.signOut();
+    vSesion.style.display = 'none';
+    vLogin.style.display  = 'block';
+    mostrarMensaje('');
+  });
+</script>
+
+</body>
+</html>
