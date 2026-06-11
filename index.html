@@ -188,6 +188,9 @@
     .hamburger span { width: 22px; height: 2px; background: var(--sec); transition: background .2s; display: block; }
     .hamburger:hover span { background: var(--gold); }
 
+    /* Oculto en desktop; solo se muestra dentro del menú hamburguesa */
+    .nav-suscribirse { display: none; }
+
     /* ══════════════════════════════
        TICKER FINANCIERO
        CAMBIO 2: top = header + nav
@@ -642,7 +645,7 @@
     <a href="/login.html" class="btn-outline" style="font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;padding:8px 16px;">Iniciar sesión</a>
     <!-- CAMBIO 6: hook Stripe en botón SUSCRIBIRSE -->
     <!-- STRIPE: reemplazar href con payment link cuando esté listo -->
-    <a href="#newsletter"
+    <a href="/archivo.html"
        class="btn-gold"
        data-stripe-ready="false">Suscribirse</a>
     <button class="hamburger" id="hamburger" aria-label="Menú">
@@ -669,7 +672,7 @@
   </nav>
   <!-- Solo visible en mobile dentro del menú hamburguesa -->
   <a href="/login.html" class="nav-suscribirse" style="background:transparent;border:1px solid #c9a84c;color:#c9a84c !important;margin-bottom:6px;">Iniciar sesión</a>
-  <a href="#newsletter" class="nav-suscribirse">Suscribirse</a>
+  <a href="/archivo.html" class="nav-suscribirse">Suscribirse</a>
 </div>
 
 <!-- ══════════════════════════════
@@ -1088,40 +1091,10 @@
         <a href="revista.html" class="btn-gold sidebar-btn">Ver Revista Digital</a>
       </div>
 
-      <!-- Últimas noticias -->
-      <div class="sidebar-latest">
-        <div class="sidebar-title">Últimas Noticias</div>
-        <article class="latest-item">
-          <span class="tag">Cúpulas</span>
-          <h5>COPARMEX exige agenda de competitividad ante elecciones intermedias de 2026</h5>
-          <div class="meta">Hace 2 horas</div>
-        </article>
-        <article class="latest-item">
-          <span class="tag">Finanzas</span>
-          <h5>BMV cierra sesión al alza impulsada por mineras y sector financiero</h5>
-          <div class="meta">Hace 3 horas</div>
-        </article>
-        <article class="latest-item">
-          <span class="tag">Turismo</span>
-          <h5>Los Cabos rompe récord de visitantes internacionales en abril: 412,000 turistas</h5>
-          <div class="meta">Hace 4 horas</div>
-        </article>
-        <article class="latest-item">
-          <span class="tag">Salud</span>
-          <h5>Laboratorios Silanes lanza su primer biosimilar para mercado latinoamericano</h5>
-          <div class="meta">Hace 5 horas</div>
-        </article>
-        <article class="latest-item">
-          <span class="tag">Cultura</span>
-          <h5>Patronato cultural de Banamex reactiva programa de restauración de arte virreinal</h5>
-          <div class="meta">Hace 6 horas</div>
-        </article>
-      </div>
-
       <div class="sidebar-promo">
         <h4>Acceso Premium</h4>
-        <p>Reportajes exclusivos, análisis de fondo y entrevistas con los líderes que mueven México.</p>
-        <a href="#newsletter" class="btn-gold">Suscribirse ahora</a>
+        <p>Con tu suscripción accedes a todas las ediciones de la revista: la actual y todo el archivo histórico.</p>
+        <a href="/archivo.html" class="btn-gold">Suscribirse ahora</a>
       </div>
 
       <div class="sidebar-title" style="margin-top:28px;">Análisis Exclusivo</div>
