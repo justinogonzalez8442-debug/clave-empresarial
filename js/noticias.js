@@ -304,31 +304,6 @@
     el.innerHTML = noticias.map((n, i) => i === 0 ? mainCard(n) : sideCard(n)).join('');
   }
 
-  /* ── RENDER SIDEBAR — Últimas Noticias ──────────────────── */
-
-  /** Popula .sidebar-latest con las 5 noticias más recientes, cada una clickeable */
-  function renderSidebar(noticias) {
-    const container = document.querySelector('.sidebar-latest');
-    if (!container || !noticias || noticias.length === 0) return;
-
-    const titulo = container.querySelector('.sidebar-title');
-    const tituloHTML = titulo ? titulo.outerHTML : '<div class="sidebar-title">Últimas Noticias</div>';
-
-    const items = noticias.slice(0, 5).map(n => {
-      const href = `noticia.html?id=${encodeURIComponent(n.ID)}`;
-      return `
-        <article class="latest-item">
-          <a href="${href}" style="display:block;text-decoration:none;color:inherit;">
-            <span class="tag">${esc(n.Seccion || 'Negocios')}</span>
-            <h5>${truncar(n.Titulo || '', 90)}</h5>
-            <div class="meta">${formatFecha(n.Fecha)}</div>
-          </a>
-        </article>`;
-    }).join('');
-
-    container.innerHTML = tituloHTML + items;
-  }
-
   /* ── RENDER NOTICIAS DEL DÍA ─────────────────────────────── */
 
   /** Rellena [data-noticias-grid] con las 12 noticias más prioritarias (sin el hero) */
@@ -502,9 +477,6 @@
       /* 5. Noticias del Día: 12 más prioritarias sin repetir el hero */
       const paraDia = activas.filter(n => n.ID !== heroId).slice(0, MAX_DIA);
       renderGrid(paraDia);
-
-      /* 6. Sidebar: 5 noticias más recientes (ordenadas ya por prioridad) */
-      renderSidebar(activas.slice(0, 5));
 
       console.info(
         `[Clave] Noticias cargadas — hero: ${heroId || '(ninguno)'} | día: ${paraDia.length}`
