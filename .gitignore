@@ -1,6 +1,9 @@
 # PDFs — viven en Cloudflare R2, no en el repo
 output/pdf/
 
+# Dependencias Node (Netlify Functions)
+node_modules/
+
 # Sistema
 .DS_Store
 Thumbs.db

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archivo Histórico – Clave Empresarial</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0d1b2a;
+      --navy-2: #14263d;
+      --navy-3: #0a1520;
+      --gold:   #c9a84c;
+      --text:   #e8dcc8;
+      --muted:  #8fa8c4;
+      --border: #2a3f5c;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--navy);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px;
+    }
+
+    .header-bar {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+
+    .header-bar a { color: var(--muted); text-decoration: none; font-size: 0.82rem; }
+    .header-bar a:hover { color: var(--gold); }
+
+    .logo img { height: 56px; width: auto; }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: normal;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .subtitulo {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 48px;
+      letter-spacing: 0.03em;
+    }
+
+    /* --- Estado: cargando --- */
+    #vista-cargando {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 80px;
+    }
+
+    /* --- Estado: no suscriptor --- */
+    #vista-upgrade { display: none; text-align: center; }
+
+    .upgrade-card {
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 100%;
+    }
+
+    .upgrade-card h2 {
+      font-size: 1.1rem;
+      font-weight: normal;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    .upgrade-card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      padding: 13px 28px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-weight: bold;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-gold:hover { opacity: 0.88; }
+    .btn-gold:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #error-checkout {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #e07070;
+      min-height: 1.2em;
+    }
+
+    /* --- Estado: activo --- */
+    #vista-archivo { display: none; width: 100%; max-width: 860px; }
+
+    .sesion-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 20px;
+      margin-bottom: 36px;
+      font-size: 0.82rem;
+    }
+
+    .sesion-info span { color: var(--muted); }
+    .sesion-info strong { color: var(--gold); }
+
+    .btn-outline-sm {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline-sm:hover { border-color: var(--gold); color: var(--gold); }
+
+    .placeholder {
+      background: var(--navy-2);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 72px 40px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .placeholder h2 {
+      font-size: 1rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .placeholder p { font-size: 0.85rem; line-height: 1.7; }
+
+    /* mensaje de confirmación post-pago */
+    .banner-ok {
+      background: #1a3a2a;
+      border: 1px solid #2d6b45;
+      border-radius: 6px;
+      padding: 14px 20px;
+      font-size: 0.85rem;
+      color: #6fc98a;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header-bar">
+  <a href="index.html">← Volver al inicio</a>
+  <div class="logo">
+    <img src="Logo_con_fondo_transparente.png" alt="Clave Empresarial"
+         onerror="this.style.display='none'">
+  </div>
+  <a href="login.html">Mi cuenta</a>
+</div>
+
+<h1>Archivo histórico</h1>
+<p class="subtitulo">Ediciones anteriores de Clave Empresarial</p>
+
+<!-- Cargando -->
+<div id="vista-cargando">Verificando acceso…</div>
+
+<!-- Sin suscripción activa -->
+<div id="vista-upgrade">
+  <div class="upgrade-card">
+    <h2>Acceso exclusivo para suscriptores</h2>
+    <p>El archivo histórico está disponible solo para suscriptores activos. Suscríbete para acceder a todas las ediciones anteriores de Clave Empresarial.</p>
+    <button class="btn-gold" id="btn-suscribirse">Suscribirse ahora</button>
+    <div id="error-checkout"></div>
+  </div>
+</div>
+
+<!-- Contenido del archivo (solo suscriptores activos) -->
+<div id="vista-archivo">
+  <div class="sesion-info">
+    <span>Acceso como <strong id="email-sesion"></strong></span>
+    <button class="btn-outline-sm" id="btn-logout">Cerrar sesión</button>
+  </div>
+
+  <div id="banner-ok-container"></div>
+
+  <div class="placeholder">
+    <h2>Aquí irán las ediciones del archivo</h2>
+    <p>Las ediciones anteriores en formato flipbook se agregarán próximamente.<br>
+    Gracias por tu suscripción.</p>
+  </div>
+</div>
+
+<script type="module">
+  import { verificarAcceso, iniciarCheckout } from './js/acceso.js';
+  import { supabase } from './js/supabase-config.js';
+
+  const vCargando = document.getElementById('vista-cargando');
+  const vUpgrade  = document.getElementById('vista-upgrade');
+  const vArchivo  = document.getElementById('vista-archivo');
+
+  const params = new URLSearchParams(window.location.search);
+
+  async function init() {
+    const { email, estado } = await verificarAcceso();
+
+    vCargando.style.display = 'none';
+
+    if (estado === 'sin-sesion') {
+      window.location.href = '/login.html';
+      return;
+    }
+
+    if (estado === 'activo') {
+      document.getElementById('email-sesion').textContent = email;
+      vArchivo.style.display = 'block';
+
+      if (params.get('suscripcion') === 'ok') {
+        const banner = document.getElementById('banner-ok-container');
+        banner.innerHTML = '<div class="banner-ok">¡Suscripción activada! Bienvenido al archivo histórico.</div>';
+      }
+    } else {
+      vUpgrade.style.display = 'block';
+
+      document.getElementById('btn-suscribirse').addEventListener('click', async (e) => {
+        const btn = e.currentTarget;
+        btn.disabled = true;
+        btn.textContent = 'Redirigiendo…';
+        try {
+          await iniciarCheckout(email);
+        } catch {
+          document.getElementById('error-checkout').textContent = 'Error al iniciar el pago. Intenta de nuevo.';
+          btn.disabled = false;
+          btn.textContent = 'Suscribirse ahora';
+        }
+      });
+    }
+
+    document.getElementById('btn-logout')?.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = '/login.html';
+    });
+  }
+
+  init();
+</script>
+
+</body>
+</html>
